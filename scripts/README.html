@@ -355,13 +355,13 @@ display: none;
 <div id="code" class="section level1">
 <h1>Code</h1>
 <p>The <code>scripts/</code> folder includes
-<code>full_replication_code.R</code> which provides the complete
-replication pipeline for all numerical studies reported in the
-manuscript.</p>
+<code>full_replication_code.R</code>, which provides the complete
+replication pipeline for all analyses reported in <strong>Sections
+5–7</strong> of the manuscript.</p>
 <p>Because the full simulations and benchmarking procedures are
 computationally intensive, running the script may require approximately
-3–4 hours depending on hardware specifications and parallelization
-settings.</p>
+<strong>3–4 hours</strong> depending on hardware specifications and
+parallelization settings.</p>
 </div>
 <div id="running-the-replication-scripts" class="section level1">
 <h1>Running the replication scripts</h1>
@@ -371,10 +371,9 @@ settings.</p>
 <pre class="r"><code>install.packages(c(&quot;dplyr&quot;, &quot;tidyr&quot;, &quot;ggplot2&quot;, &quot;tidymodels&quot;,
                    &quot;microbenchmark&quot;, &quot;xtable&quot;, &quot;KRLS&quot;, &quot;KRMM&quot;, &quot;kernlab&quot;))</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>The package FastKRR <strong>v0.1.2</strong> is available on CRAN: <a href="https://cran.r-project.org/package=FastKRR" class="uri">https://cran.r-project.org/package=FastKRR</a></li>
-</ol>
-<p><code>install.packages(&quot;FastKRR&quot;)</code></p>
-<ol start="3" style="list-style-type: decimal">
+<li><p>The package FastKRR <strong>v0.1.2</strong> is available on CRAN:
+<a href="https://cran.r-project.org/package=FastKRR" class="uri">https://cran.r-project.org/package=FastKRR</a>
+<code>install.packages(&quot;FastKRR&quot;)</code></p></li>
 <li><p>Load the package: <code>library(FastKRR)</code></p></li>
 <li><p>To reproduce the full results, run the replication scripts from
 the <code>scripts/</code> directory</p></li>
@@ -390,7 +389,8 @@ replication <code>.RData</code> files may differ slightly from those in
 the manuscript and can vary across systems due to hardware, OS
 scheduling, or parallelization. However, the substantive results and
 overall patterns remain consistent, and the performance comparisons and
-conclusions are unaffected.</p>
+conclusions are unaffected. The exact <code>.RData</code> files used in
+the manuscript (not newly generated ones) are available at: <a href="https://github.com/Gyeong-min-Kim/FastKRR-supplementary" class="uri">https://github.com/Gyeong-min-Kim/FastKRR-supplementary</a></p>
 </div>
 
 
