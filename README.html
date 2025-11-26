@@ -354,25 +354,22 @@ display: none;
 
 <div id="supplementary-materials-for-fastkrr" class="section level1">
 <h1>Supplementary materials for <em>FastKRR</em></h1>
-<p>This repository provides the supplementary materials for the
-paper<br />
+<p>This repository provides the supplementary materials for the paper
 <strong>“FastKRR: An R Package for Efficient Kernel Ridge Regression
-with RcppArmadillo”</strong>,<br />
-including the full replication scripts and the precomputed
-<code>.RData</code> files used to generate all tables and figures in the
-manuscript.</p>
+with RcppArmadillo”</strong>, including the full replication scripts and
+the precomputed <code>.RData</code> files used to generate all tables
+and figures in the manuscript.</p>
 <div id="why-precomputed-rdata-files-are-provided" class="section level2">
 <h2>Why precomputed RData files are provided</h2>
 <p>This repository contains the computational resources used in two
-major components of the analysis presented in the paper.The first is the
-<strong>numerical study</strong>, which involves large-scale simulation
-experiments and comparisons of computation time between the exact and
-approximate FastKRR estimators. Because the timing component naturally
-depends on the computing environment (e.g., CPU architecture,
+major components of the analysis presented in the paper. The first is
+the <strong>numerical study</strong>, which involves large-scale
+simulation experiments and comparisons of computation time between the
+exact and approximate FastKRR estimators. Because the timing component
+naturally depends on the computing environment (e.g., CPU architecture,
 parallelism, and OS scheduling), the exact runtime values cannot be
-reproduced identically across systems, even with fixed random
-seeds.<br />
-To ensure that the results reported in the manuscript can be recreated
+reproduced identically across systems, even with fixed random seeds. To
+ensure that the results reported in the manuscript can be recreated
 immediately, we provide the precomputed <code>.RData</code> files used
 in the tables and figures.</p>
 <p>Following the numerical study, the paper includes a
