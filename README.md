@@ -8,8 +8,7 @@ generate all tables and figures in the manuscript.
 
 ## Why precomputed RData files are provided
 
-The supplemental materials correspond to two parts of the analysis presented in
-the paper. The first is the **numerical study**, which involves large-scale
+This repository contains the computational resources used in two major components of the analysis presented in the paper.The first is the **numerical study**, which involves large-scale
 simulation experiments and comparisons of computation time between the exact and
 approximate FastKRR estimators. Because the timing component naturally depends
 on the computing environment (e.g., CPU architecture, parallelism, and OS
