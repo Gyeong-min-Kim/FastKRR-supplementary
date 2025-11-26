@@ -45,7 +45,7 @@ set of simulations.
   - the tidymodels workflow example,
   - benchmarking and comparison results.  
   Running this script will generate new `.RData` files in  
-  **`scripts/output/`** (not in `supplement_materials/`).
+  **`scripts/output/`**.
 
 - `supplement_materials/*.RData`  
   Precomputed results used directly in the paper for tables and figures.
