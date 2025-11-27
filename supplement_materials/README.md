@@ -1,8 +1,8 @@
 # Supplemental Materials
 
 This folder contains `.RData` files that were generated on our reference
-machine and are used to compile the manuscript exactly as submitted.
-They ensure that all tables and figures in the paper reproduce
+computation machine and are used to compile the manuscript exactly as submitted.
+They ensure that all tables in the paper reproduce
 bit-for-bit without rerunning the full replication code.
 
 - These files correspond to intermediate results from the numerical

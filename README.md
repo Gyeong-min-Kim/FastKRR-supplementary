@@ -27,8 +27,7 @@ time, the results are fully reproducible.
 
 To support both immediate reproducibility and full transparency, we provide:
 
-- **full replication scripts**, covering both the simulation study and the
-  tidymodels workflow, and  
+- **full replication scripts**, covering replication pipeline for all analyses reported in manuscript, and  
 - **precomputed `.RData` files** *only for the simulation study*, generated on
   the system used during manuscript preparation.
 
@@ -39,16 +38,13 @@ set of simulations.
 
 ## Main contents
 
-- `scripts/full_replication_code.R`  
-  Full pipeline to reproduce:
+- `scripts/full_replication_code.R`: Full pipeline to reproduce,
   - all simulation results (runtime: ~3–4 hours),
   - the tidymodels workflow example,
   - benchmarking and comparison results.  
-  Running this script will generate new `.RData` files in  
-  **`scripts/output/`**.
+  - running this script will generate new `.RData` files in **`scripts/output/`**.
 
-- `supplement_materials/*.RData`  
-  Precomputed results used directly in the paper for tables and figures.
+- `supplement_materials/*.RData`: Precomputed results used directly in the paper for tables and figures.
 
 - Additional helper scripts and documentation.
 
@@ -57,6 +53,5 @@ set of simulations.
 ## Reproducibility notes
 
 The precomputed `.RData` files reproduce exactly the numerical values used in the
-paper.  
-Runtime values may differ across systems, but the **relative performance,
+paper. Runtime values may differ across systems, but the **relative performance,
 comparative patterns, and substantive conclusions remain unchanged**.
