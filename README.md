@@ -2,38 +2,44 @@
 
 This repository provides the supplementary materials for the paper
 **“FastKRR: An R Package for Efficient Kernel Ridge Regression with RcppArmadillo”**,
-including the full replication scripts and the precomputed `.RData` files used to
-generate all tables and figures in the manuscript.
-
+including replication scripts and precomputed `.RData` and `.Rdata` files used
+to generate the tables and figures in the original submission and the first revision.
 
 ## Why precomputed RData files are provided
 
 This repository contains the computational resources used in two major components
 of the analysis presented in the paper.
-The first is the **numerical study**, which involves large-scale
-simulation experiments and comparisons of computation time between the exact and
-approximate FastKRR estimators. Because the timing component naturally depends
-on the computing environment (e.g., CPU architecture, parallelism, and OS
-scheduling), the exact runtime values cannot be reproduced identically across
-systems, even with fixed random seeds.
-To ensure that the results reported in the manuscript can be recreated
-immediately, we provide the precomputed `.RData` files used in the tables and figures.
+The **numerical study** includes large-scale simulation experiments,
+comparisons of computation time and predictive accuracy, evaluations of exact
+and approximate KRR implementations, and comparisons with other R packages.
+Because runtime measurements depend on the computing environment, including
+CPU architecture, parallel configuration, operating system, and system
+scheduling, exact computation times may not be reproduced identically across
+machines, even when random seeds are fixed.
+To allow the numerical values reported in the manuscript to be reproduced
+without rerunning all time-consuming experiments, we provide the precomputed
+`.RData` and `.Rdata` files used to generate the reported tables and figures.
 
-Following the numerical study, the paper includes a **tidymodels integration
-example** to illustrate how FastKRR can be used within a modern modeling
-workflow. This example does not require any precomputed data; it can be run
-directly from the provided scripts. Although the computations may take some
-time, the results are fully reproducible.
+The paper also includes a **tidymodels integration example** illustrating how
+FastKRR can be incorporated into a modern modeling workflow. This example does
+not require precomputed result files and can be run directly from the provided
+replication scripts.
 
-To support both immediate reproducibility and full transparency, we provide:
 
-- **full replication scripts**, covering replication pipeline for all analyses reported in manuscript, and  
-- **precomputed `.RData` files** *only for the simulation study*, generated on
-  the system used during manuscript preparation.
+## Repository organization
 
-Users may run the entire pipeline on their own machines, or rely on the
-precomputed files to reproduce the figures and tables without rerunning the full
-set of simulations.
+The supplementary files are organized according to the stage at which each
+analysis was introduced or updated.
+
+- Files stored directly in `supplement_materials/` correspond to analyses
+  included in the original submission.
+
+- Files stored in `supplement_materials/first-revision/` correspond to analyses
+  newly added or updated during the first revision.
+
+The revised manuscript may use files from both locations. Analyses retained
+without modification continue to use the original result files, whereas newly
+added or revised analyses use files in the `first-revision/` directory.
 
 
 ## Main contents
@@ -46,12 +52,23 @@ set of simulations.
 
 - `supplement_materials/*.RData`: Precomputed results used directly in the paper for tables and figures.
 
+
+- `supplement_materials/first-revision/` 
+  - expanded experiments with larger sample sizes and dimensions,
+  - computation-time and predictive-accuracy evaluations,
+  - comparisons with `gKRLS` and `KRLS`, and
+  - the expanded hyperparameter-selection study.
+
 - Additional helper scripts and documentation.
-
-
 
 ## Reproducibility notes
 
-The precomputed `.RData` files reproduce exactly the numerical values used in the
-paper. Runtime values may differ across systems, but the **relative performance,
-comparative patterns, and substantive conclusions remain unchanged**.
+The precomputed result files reproduce the numerical values used in the
+corresponding version of the manuscript.
+
+Runtime values obtained by rerunning the experiments may vary across computing
+environments. Consequently, exact timing values are not expected to be
+identical across machines, although the main comparative patterns and
+substantive conclusions should remain qualitatively similar.
+
+Files for the first revision are located in: `supplement_materials/first-revision/`

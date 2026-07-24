@@ -352,88 +352,109 @@ display: none;
 </div>
 
 
-<div id="supplementary-materials-for-fastkrr" class="section level1">
-<h1>Supplementary materials for <em>FastKRR</em></h1>
-<p>This repository provides the supplementary materials for the paper
-<strong>“FastKRR: An R Package for Efficient Kernel Ridge Regression
-with RcppArmadillo”</strong>, including replication scripts and
-precomputed <code>.RData</code> and <code>.Rdata</code> files used to
-generate the tables and figures in the original submission and the first
-revision.</p>
+<div id="first-revision-result-files-for-fastkrr" class="section level1">
+<h1>First-revision result files for <em>FastKRR</em></h1>
+<p>This directory contains the precomputed <code>.RData</code> files
+used for the numerical experiments added or updated in the first
+revision of the paper <strong>“FastKRR: An R Package for Efficient
+Kernel Ridge Regression with RcppArmadillo.”</strong></p>
+<p>The files were generated on the reference computing system used
+during the revision and are provided so that the revised tables and
+figures can be reproduced without rerunning the full set of
+computationally intensive experiments.</p>
 <div id="why-precomputed-rdata-files-are-provided" class="section level2">
 <h2>Why precomputed RData files are provided</h2>
-<p>This repository contains the computational resources used in two
-major components of the analysis presented in the paper. The
-<strong>numerical study</strong> includes large-scale simulation
-experiments, comparisons of computation time and predictive accuracy,
-evaluations of exact and approximate KRR implementations, and
-comparisons with other R packages. Because runtime measurements depend
-on the computing environment, including CPU architecture, parallel
-configuration, operating system, and system scheduling, exact
-computation times may not be reproduced identically across machines,
-even when random seeds are fixed. To allow the numerical values reported
-in the manuscript to be reproduced without rerunning all time-consuming
-experiments, we provide the precomputed <code>.RData</code> and
-<code>.Rdata</code> files used to generate the reported tables and
-figures.</p>
-<p>The paper also includes a <strong>tidymodels integration
-example</strong> illustrating how FastKRR can be incorporated into a
-modern modeling workflow. This example does not require precomputed
-result files and can be run directly from the provided replication
-scripts.</p>
+<p>The revised numerical study includes large-scale simulation
+experiments, comparisons with external KRR-related packages, evaluations
+of computation time and predictive accuracy, and comparisons of
+hyperparameter-selection procedures.</p>
+<p>Runtime measurements depend on the computing environment, including
+CPU architecture, operating system, parallel configuration, system load,
+and scheduling. Consequently, exact computation times may differ when
+the experiments are rerun on another machine, even when the random seeds
+and model settings are fixed.</p>
+<p>The precomputed files in this directory contain the numerical results
+used to generate the corresponding tables and figures in the first
+revised manuscript.</p>
 </div>
-<div id="repository-organization" class="section level2">
-<h2>Repository organization</h2>
-<p>The supplementary files are organized according to the stage at which
-each analysis was introduced or updated.</p>
+</div>
+<div id="file-organization" class="section level1">
+<h1>File organization</h1>
+<div id="revised-table-2-package-level-computation-time-comparison" class="section level3">
+<h3>Revised Table 2: package-level computation-time comparison</h3>
 <ul>
-<li><p>Files stored directly in <code>supplement_materials/</code>
-correspond to analyses included in the original submission.</p></li>
-<li><p>Files stored in <code>supplement_materials/first-revision/</code>
-correspond to analyses newly added or updated during the first
-revision.</p></li>
+<li><p><code>table2_compare_time_packages_fastkrr(n1000d3).RData</code></p>
+<p>Contains the package-level computation-time comparison among
+<code>FastKRR</code>, <code>KRLS</code>, <code>gKRLS</code>, and
+<code>kernlab</code> under fixed hyperparameter settings.</p></li>
 </ul>
-<p>The revised manuscript may use files from both locations. Analyses
-retained without modification continue to use the original result files,
-whereas newly added or revised analyses use files in the
-<code>first-revision/</code> directory.</p>
 </div>
-<div id="main-contents" class="section level2">
-<h2>Main contents</h2>
+<div id="revised-table-3-fastkrr-computation-time-and-predictive-accuracy" class="section level3">
+<h3>Revised Table 3: FastKRR computation time and predictive
+accuracy</h3>
 <ul>
-<li><p><code>scripts/full_replication_code.R</code>: Full pipeline to
-reproduce,</p>
+<li><p><code>table3_compare_time_opt(all).Rdata</code></p>
+<p>Contains computation-time results for the exact, Nyström, pivoted
+Cholesky, and random Fourier feature implementations across the revised
+simulation settings.</p></li>
+<li><p><code>table3_compare_prediction (n5000d3).Rdata</code></p></li>
+<li><p><code>table3_compare_prediction (n5000d5).Rdata</code></p></li>
+<li><p><code>table3_compare_prediction (n5000d7).Rdata</code></p></li>
+<li><p><code>table3_compare_prediction (n10000d3).Rdata</code></p></li>
+<li><p><code>table3_compare_prediction (n10000d5).Rdata</code></p></li>
+<li><p><code>table3_compare_prediction (n10000d7).Rdata</code></p>
+<p>Contain predictive-accuracy results for <span class="math inline">\(n
+\in \{5{,}000,10{,}000\}\)</span> and <span class="math inline">\(d \in
+\{3,5,7\}\)</span>.</p></li>
+</ul>
+</div>
+<div id="revised-table-4-approximation-method-comparison" class="section level3">
+<h3>Revised Table 4: approximation-method comparison</h3>
 <ul>
-<li>all simulation results (runtime: ~3–4 hours),</li>
-<li>the tidymodels workflow example,</li>
-<li>benchmarking and comparison results.<br />
-</li>
-<li>running this script will generate new <code>.RData</code> files in
-<strong><code>scripts/output/</code></strong>.</li>
-</ul></li>
-<li><p><code>supplement_materials/*.RData</code>: Precomputed results
-used directly in the paper for tables and figures.</p></li>
-<li><p><code>supplement_materials/first-revision/</code></p>
+<li><p><code>table4_compare_time_pkg(n10000d3_m111).Rdata</code></p></li>
+<li><p><code>table4_compare_time_pkg(n10000d3_m208).Rdata</code></p>
+<p>Contain computation-time results for the package-level approximation
+comparison at approximation ranks <span class="math inline">\(m=111\)</span> and <span class="math inline">\(m=208\)</span>.</p></li>
+<li><p><code>table4_compare_prediction(n10000d3_m111).Rdata</code></p></li>
+<li><p><code>table4_compare_prediction(n10000d3_m208).Rdata</code></p>
+<p>Contain predictive-accuracy results for the same approximation-rank
+settings.</p>
+<p>These analyses compare the sketched implementation in
+<code>gKRLS</code>, the Nyström implementation in <code>KRLS</code>, and
+the Nyström, pivoted Cholesky, and random Fourier feature approximations
+in <code>FastKRR</code>.</p></li>
+</ul>
+</div>
+<div id="revised-table-5-hyperparameter-selection-comparison" class="section level3">
+<h3>Revised Table 5: hyperparameter-selection comparison</h3>
 <ul>
-<li>expanded experiments with larger sample sizes and dimensions,</li>
-<li>computation-time and predictive-accuracy evaluations,</li>
-<li>comparisons with <code>gKRLS</code> and <code>KRLS</code>, and</li>
-<li>the expanded hyperparameter-selection study.</li>
-</ul></li>
-<li><p>Additional helper scripts and documentation.</p></li>
+<li><p><code>table5_compare_cv.Rdata</code></p>
+<p>Contains computation-time results for ExactCV, FastCV, and REML
+within <code>FastKRR</code>.</p></li>
+<li><p><code>table5_compare_cv_prediction (n2000d3).Rdata</code></p>
+<p>Contains the corresponding predictive-accuracy results.</p></li>
+</ul>
+</div>
+<div id="additional-revised-figure-results" class="section level3">
+<h3>Additional revised figure results</h3>
+<ul>
+<li><p><code>plot_n5000_d3_eps6.RData</code></p>
+<p>Contains precomputed results used for a figure or graphical summary
+in the revised manuscript.</p></li>
 </ul>
 </div>
 <div id="reproducibility-notes" class="section level2">
 <h2>Reproducibility notes</h2>
-<p>The precomputed result files reproduce the numerical values used in
-the corresponding version of the manuscript.</p>
-<p>Runtime values obtained by rerunning the experiments may vary across
-computing environments. Consequently, exact timing values are not
-expected to be identical across machines, although the main comparative
-patterns and substantive conclusions should remain qualitatively
-similar.</p>
-<p>Files for the first revision are located in:
-<code>supplement_materials/first-revision/</code></p>
+<p>The files in this directory reproduce the numerical values reported
+in the corresponding revised tables and figures.</p>
+<p>Exact runtime values may vary across machines because of differences
+in hardware, operating systems, parallel execution, and system load.
+Predictive results may also exhibit minor floating-point or stochastic
+variation when regenerated, but the main comparative patterns should
+remain qualitatively similar.</p>
+<p>Files corresponding to analyses retained unchanged from the original
+submission remain in the parent <code>supplement_materials/</code>
+directory.</p>
 </div>
 </div>
 
