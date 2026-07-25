@@ -11,7 +11,7 @@ of the manuscript.
 
 ```r
 install.packages(c("dplyr", "tidyr", "ggplot2", "tidymodels",
-                   "microbenchmark", "knitr, "kableExtra", "mgcv"
+                   "microbenchmark", "knitr", "kableExtra", "mgcv",
                    "xtable", "KRLS", "gKRLS", "kernlab", "FastKRR"))
 ```
 
