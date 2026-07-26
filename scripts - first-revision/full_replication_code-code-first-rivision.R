@@ -15,7 +15,7 @@ library(mgcv)
 library(kernlab)
 library(xtable)
 
-
+start_time = Sys.time()
 ## 5. Structure and functionality of FastKRR package 
 #generate data 
 set.seed(1)
@@ -37,18 +37,18 @@ fit_exact = fastkrr(data = data, response = "y", kernel = "gaussian",
 fitted_exact = predict(fit_exact)
 pred_exact = predict(fit_exact, newdata = X_new)
 
-error(fit_exact)
-error(fit_exact, data_new = data_new)
+FastKRR::error(fit_exact)
+FastKRR::error(fit_exact, data_new = data_new)
 
-param(fit_exact)
+FastKRR::param(fit_exact)
 summary(fit_exact)
 plot(fit_exact)
 
 #Comparison of kernel ridge regression fits using different computation methods
-fit_exact   = fastkrr(data, response = "y", kernel = "gaussian", opt = "exact", lambda=lambda,  verbose = TRUE)
-fit_nystrom = fastkrr(data, response = "y", kernel = "gaussian", opt = "nystrom", lambda=lambda, verbose = TRUE)
-fit_pivoted = fastkrr(data, response = "y", kernel = "gaussian", opt = "pivoted", lambda=lambda, verbose = TRUE)
-fit_rff     = fastkrr(data, response = "y", kernel = "gaussian", opt = "rff", lambda=lambda, verbose = TRUE)
+fit_exact   = fastkrr(data, response = "y", kernel = "gaussian", opt = "exact",  verbose = TRUE)
+fit_nystrom = fastkrr(data, response = "y", kernel = "gaussian", opt = "nystrom", verbose = TRUE)
+fit_pivoted = fastkrr(data, response = "y", kernel = "gaussian", opt = "pivoted", verbose = TRUE)
+fit_rff     = fastkrr(data, response = "y", kernel = "gaussian", opt = "rff", verbose = TRUE)
 
 
 pred_exact   = predict(fit_exact,   X_new)
@@ -308,9 +308,6 @@ krr = function(X, y, lambda, rho){
 }
 
 # time
-
-
-
 krr_compare = microbenchmark::microbenchmark(
   KRLS = krls(X= X, y= as.vector(y), whichkernel = "gaussian",
               sigma = rho, derivative = FALSE, lambda = lambda,
@@ -1071,7 +1068,7 @@ krr_pkg_compare_n10000d3 = microbenchmark::microbenchmark(
 
 save(krr_pkg_compare_n10000d3, file = "output/table4_compare_time_pkg(n10000d3_m111).Rdata")
 
-krr_pkg_compare_n10000d3m208 = krr_pkg_compare_n10000d3
+krr_pkg_compare_n10000d3m111 = krr_pkg_compare_n10000d3
 
 ## pred
 
@@ -1346,6 +1343,7 @@ n = 2000
 d = 3
 rho = 1
 lambda = 10^seq(-11, -7, length.out = 100)
+lambda_reml = c(10^(-11), 10^(-7))
 
 X = matrix(runif(n*d, 0, 1), nrow = n, ncol = d)
 y = as.vector(sin(2*pi*rowMeans(X)^3) + rnorm(n, 0, 0.1))
@@ -1360,7 +1358,7 @@ time_data_cv_n2000d3 = microbenchmark::microbenchmark(
                                    n_threads = 4, rho = rho, lambda = lambda, selection_method = "fastCV", verbose = FALSE),
   
   FastKRR_reml_n2000d3 = fastkrr(data = data_n2000d3, response = "y", kernel = "gaussian", opt = "exact", 
-                                 n_threads = 4, rho = rho, lambda = lambda, selection_method = "REML", verbose = FALSE),
+                                 n_threads = 4, rho = rho, lambda = lambda_reml, selection_method = "REML", verbose = FALSE),
   
   times = 100,
   unit = "ms"
@@ -1390,7 +1388,7 @@ for(rep in 1:100){
                            n_threads = 4, rho = rho, lambda = lambda, selection_method = "fastCV", verbose = TRUE)
   
   FastKRR_reml = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact",
-                         n_threads = 4, rho = rho, lambda = lambda, selection_method = "REML", verbose = TRUE)
+                         n_threads = 4, rho = rho, lambda = lambda_reml, selection_method = "REML", verbose = TRUE)
   
   compare_cv_pred_n2000d3$exactCV[[rep]] =  as.vector(y_z - predict(object = FastKRR_exactCV, newdata = z))
   compare_cv_pred_n2000d3$fastCV[[rep]] =  as.vector(y_z - predict(object = FastKRR_fastCV, newdata = z))
@@ -1513,3 +1511,6 @@ pred = predict(final_fit, ames_test) %>%
 
 metrics(pred, truth = Sale_Price, estimate = .pred)
 
+end_time = Sys.time()
+elapsed = end_time - start_time
+elapsed
