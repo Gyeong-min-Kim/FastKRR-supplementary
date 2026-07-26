@@ -13,6 +13,7 @@ library(KRLS)
 library(gKRLS)
 library(mgcv)
 library(kernlab)
+library(xtable)
 
 
 ## 5. Structure and functionality of FastKRR package 
@@ -289,6 +290,26 @@ y = as.vector(sin(2*pi*rowMeans(X)^3) + rnorm(n, 0, 0.1))
 # hyper parameter
 lambda  = 1e-4
 rho = 1
+
+
+# kernlab code
+
+krr = function(X, y, lambda, rho){
+  n_row = nrow(X)
+  
+  K = kernelMatrix(rbfdot(sigma=0.5), X)
+  
+  alpha_hat = solve(K + lambda * diag(n_row)) %*% y
+  
+  pred_y = t(alpha_hat) %*% K
+  
+  return(list("pred_y" = pred_y,
+              "coefficient" = alpha_hat))
+}
+
+# time
+
+
 
 krr_compare = microbenchmark::microbenchmark(
   KRLS = krls(X= X, y= as.vector(y), whichkernel = "gaussian",
@@ -1492,7 +1513,3 @@ pred = predict(final_fit, ames_test) %>%
 
 metrics(pred, truth = Sale_Price, estimate = .pred)
 
-sessionInfo()
-end_time = Sys.time()
-elapsed = end_time - start_time
-elapsed
