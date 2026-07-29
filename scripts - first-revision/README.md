@@ -4,13 +4,15 @@ The `scripts - first-revision/` folder includes `full_replication_code-first-riv
 the complete replication pipeline for all analyses reported in **Sections 5–7** 
 of the manuscript.
 
+Because the full simulations and benchmarking procedures are computationally intensive, 
+running the script may require approximately **34–37 hours** depending on hardware specifications and parallelization settings.
 
 # Running the replication scripts
 
 1. Install the necessary packages:
 
 ```r
-install.packages(c("dplyr", "tidyr", "ggplot2", "tidymodels",
+install.packages(c("dplyr", "tidyr", "ggplot2", "tidymodels", "tibble",
                    "microbenchmark", "knitr", "kableExtra", "mgcv",
                    "xtable", "KRLS", "gKRLS", "kernlab", "FastKRR"))
 ```

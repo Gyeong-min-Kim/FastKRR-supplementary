@@ -358,13 +358,17 @@ display: none;
 <code>full_replication_code-first-rivision.R</code>, which provides the
 complete replication pipeline for all analyses reported in
 <strong>Sections 5–7</strong> of the manuscript.</p>
+<p>Because the full simulations and benchmarking procedures are
+computationally intensive, running the script may require approximately
+<strong>34–37 hours</strong> depending on hardware specifications and
+parallelization settings.</p>
 </div>
 <div id="running-the-replication-scripts" class="section level1">
 <h1>Running the replication scripts</h1>
 <ol style="list-style-type: decimal">
 <li>Install the necessary packages:</li>
 </ol>
-<pre class="r"><code>install.packages(c(&quot;dplyr&quot;, &quot;tidyr&quot;, &quot;ggplot2&quot;, &quot;tidymodels&quot;,
+<pre class="r"><code>install.packages(c(&quot;dplyr&quot;, &quot;tidyr&quot;, &quot;ggplot2&quot;, &quot;tidymodels&quot;, &quot;tibble&quot;,
                    &quot;microbenchmark&quot;, &quot;knitr&quot;, &quot;kableExtra&quot;, &quot;mgcv&quot;,
                    &quot;xtable&quot;, &quot;KRLS&quot;, &quot;gKRLS&quot;, &quot;kernlab&quot;, &quot;FastKRR&quot;))</code></pre>
 <ol start="2" style="list-style-type: decimal">

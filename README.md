@@ -54,6 +54,7 @@ added or revised analyses use files in the `first-revision/` directory.
 
 
 - `supplement_materials/first-revision/` 
+  - all simulation results (runtime: ~34–37 hours),
   - expanded experiments with larger sample sizes and dimensions,
   - computation-time and predictive-accuracy evaluations,
   - comparisons with `gKRLS` and `KRLS`, and
