@@ -52,6 +52,9 @@ added or revised analyses use files in the `first-revision/` directory.
 
 - `supplement_materials/*.RData`: Precomputed results used directly in the paper for tables and figures.
 
+- `reponse/`: Simulation code and precomputed results for **Table S1** in the
+  response letter to the editor and reviewers, comparing `KRMM`'s REML-based
+  tuning with `FastKRR`'s `"fastCV"` and `"REML"` options.
 
 - `supplement_materials/first-revision/` 
   - all simulation results (runtime: ~34–37 hours),
