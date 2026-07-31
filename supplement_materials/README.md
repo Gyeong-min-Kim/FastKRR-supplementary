@@ -1,4 +1,4 @@
-# First-revision result files for *FastKRR*
+# Result files for *FastKRR*
 
 This directory contains the precomputed `.Rdata` files used for the numerical
 experiments added or updated in the submission
@@ -10,7 +10,7 @@ reproduced without rerunning the full set of computationally intensive
 experiments.
 
 
-## Why precomputed RData files are provided
+## Why precomputed Rdata files are provided
 
 The numerical study includes large-scale simulation experiments,
 comparisons with external KRR-related packages, evaluations of computation time
@@ -31,7 +31,7 @@ generate the corresponding tables and figures in the revised manuscript.
 
 ### Table 2: package-level computation-time comparison
 
-- `table2_compare_time_packages_fastkrr(n1000d3).RData`
+- `table2_compare_time_packages_fastkrr(n1000d3).Rdata`
 
   Contains the package-level computation-time comparison among
   `FastKRR`, `KRLS`, `gKRLS`, and `kernlab` under fixed hyperparameter

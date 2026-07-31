@@ -5,7 +5,7 @@ This repository provides the supplementary materials for the paper
 including replication scripts and precomputed `.Rdata` files used
 to generate the tables and figures in the submission.
 
-## Why precomputed RData files are provided
+## Why precomputed Rdata files are provided
 
 This repository contains the computational resources used in two major components
 of the analysis presented in the paper.
