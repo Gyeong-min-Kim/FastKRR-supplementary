@@ -1,5 +1,4 @@
 rm(list = ls())
-setwd("C:/Users/User/Desktop/FastKRR-supplementary/scripts - first-revision")
 ###### REQUIRED PACKAGES -------------------------------------------------------
 library(FastKRR)
 library(dplyr)
