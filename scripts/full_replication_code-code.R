@@ -1065,7 +1065,7 @@ krr_pkg_compare_n10000d3 = microbenchmark::microbenchmark(
   unit = "ms"
 )
 
-save(krr_pkg_compare_n10000d3, file = "output/table4_compare_time_pkg(n10000d3_m111).Rdata")
+save(krr_pkg_compare_n10000d3, file = "output/table5_compare_time_pkg(n10000d3_m111).Rdata")
 
 krr_pkg_compare_n10000d3m111 = krr_pkg_compare_n10000d3
 
@@ -1124,7 +1124,7 @@ for (rep in 1:100) {
   compare_packages_approx_n10000d3$FastKRR_rff[[rep]]     = as.vector(y_z - predict(object = FastKRR_rff, newdata = as.matrix(z_frame)))
 }
 
-save(compare_packages_approx_n10000d3, file = "output/table4_compare_prediction(n10000d3_m111).Rdata")
+save(compare_packages_approx_n10000d3, file = "output/table5_compare_prediction(n10000d3_m111).Rdata")
 
 compare_packages_approx_n10000d3m111 = compare_packages_approx_n10000d3
 
@@ -1208,7 +1208,7 @@ krr_pkg_compare_n10000d3 = microbenchmark::microbenchmark(
   times = 100,
   unit = "ms"
 )
-save(krr_pkg_compare_n10000d3, file = "output/table4_compare_time_pkg(n10000d3_m208).Rdata")
+save(krr_pkg_compare_n10000d3, file = "output/table5_compare_time_pkg(n10000d3_m208).Rdata")
 
 krr_pkg_compare_n10000d3m208 = krr_pkg_compare_n10000d3
 
@@ -1267,7 +1267,7 @@ for (rep in 1:100) {
   compare_packages_approx_n10000d3$FastKRR_rff[[rep]]     = as.vector(y_z - predict(object = FastKRR_rff, newdata = as.matrix(z_frame)))
 }
 
-save(compare_packages_approx_n10000d3, file = "output/table4_compare_prediction(n10000d3_m208).Rdata")
+save(compare_packages_approx_n10000d3, file = "output/table5_compare_prediction(n10000d3_m208).Rdata")
 
 compare_packages_approx_n10000d3m208 = compare_packages_approx_n10000d3
 
@@ -1374,7 +1374,7 @@ time_data_cv_n1000d3 = microbenchmark::microbenchmark(
 )
 
 
-save(time_data_cv_n1000d3, file = "output/table5_compare_time_cv.Rdata")
+save(time_data_cv_n1000d3, file = "output/table4_compare_time_cv.Rdata")
 
 # pred
 compare_cv_pred_n1000d3 = list()
@@ -1419,7 +1419,7 @@ for(rep in 1:100){
   
 }
 
-save(compare_cv_pred_n1000d3, file = "output/table5_compare_cv_prediction (n1000d3).Rdata")
+save(compare_cv_pred_n1000d3, file = "output/table4_compare_cv_prediction (n1000d3).Rdata")
 
 
 df = as.data.frame(time_data_cv_n1000d3)
@@ -1443,9 +1443,9 @@ summary_cv = df %>%
 colnames(summary_cv)[colnames(summary_cv) == "expr"] = "Option"
 
 summary_cv_pred_n1000d3 = do.call(rbind, lapply(compare_cv_pred_n1000d3, calc_metric))
-summary_cv_table5 = cbind(summary_cv, summary_cv_pred_n1000d3)
+summary_cv_table4 = cbind(summary_cv, summary_cv_pred_n1000d3)
 
-summary_cv_table5 = summary_cv_table5 %>%mutate(
+summary_cv_table4 = summary_cv_table4 %>%mutate(
   `Mean (SE)` = sprintf("%.4f (%.4f)", Mean, SE),
   
   Median = sprintf(
@@ -1473,7 +1473,7 @@ summary_cv_table5 = summary_cv_table5 %>%mutate(
     `MAE (SE)`
   )
 
-rownames(summary_cv_table5) = NULL
+rownames(summary_cv_table4) = NULL
 
 
 ## 7.Integration with the tidymodels ecosystem

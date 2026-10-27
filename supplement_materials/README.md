@@ -55,16 +55,29 @@ generate the corresponding tables and figures in the revised manuscript.
   Contain predictive-accuracy results for
   \(n \in \{5{,}000,10{,}000\}\) and \(d \in \{3,5,7\}\).
 
-### Table 4: approximation-method comparison
+### Table 4: hyperparameter-selection comparison
 
-- `table4_compare_time_pkg(n10000d3_m111).Rdata`
-- `table4_compare_time_pkg(n10000d3_m208).Rdata`
+- `table4_compare_time_cv.Rdata`
+
+  Contains computation-time results, including regularization-parameter
+  selection, for `KRLS` (GCV), `gKRLS` (REML), and `FastKRR` with ExactCV,
+  FastCV, and REML. All methods use exact kernel computation
+  ($n=1000$, $d=3$, $\rho=1$).
+
+- `table4_compare_cv_prediction (n1000d3).Rdata`
+
+  Contains the corresponding predictive-accuracy results.
+
+### Table 5: approximation-method comparison
+
+- `table5_compare_time_pkg(n10000d3_m111).Rdata`
+- `table5_compare_time_pkg(n10000d3_m208).Rdata`
 
   Contain computation-time results for the package-level approximation
   comparison at approximation ranks \(m=111\) and \(m=208\).
 
-- `table4_compare_prediction(n10000d3_m111).Rdata`
-- `table4_compare_prediction(n10000d3_m208).Rdata`
+- `table5_compare_prediction(n10000d3_m111).Rdata`
+- `table5_compare_prediction(n10000d3_m208).Rdata`
 
   Contain predictive-accuracy results for the same approximation-rank
   settings.
@@ -72,19 +85,6 @@ generate the corresponding tables and figures in the revised manuscript.
   These analyses compare the sketched implementation in `gKRLS`, the Nyström
   implementation in `KRLS`, and the Nyström, pivoted Cholesky, and random
   Fourier feature approximations in `FastKRR`.
-
-### Table 5: hyperparameter-selection comparison
-
-- `table5_compare_time_cv.Rdata`
-
-  Contains computation-time results, including regularization-parameter
-  selection, for `KRLS` (GCV), `gKRLS` (REML), and `FastKRR` with ExactCV,
-  FastCV, and REML. All methods use exact kernel computation
-  ($n=1000$, $d=3$, $\rho=1$).
-
-- `table5_compare_cv_prediction (n1000d3).Rdata`
-
-  Contains the corresponding predictive-accuracy results.
 
 ### Additional figure results
 
