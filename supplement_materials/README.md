@@ -75,12 +75,14 @@ generate the corresponding tables and figures in the revised manuscript.
 
 ### Table 5: hyperparameter-selection comparison
 
-- `table5_compare_cv.Rdata`
+- `table5_compare_time_cv.Rdata`
 
-  Contains computation-time results for ExactCV, FastCV, and REML within
-  `FastKRR`.
+  Contains computation-time results, including regularization-parameter
+  selection, for `KRLS` (GCV), `gKRLS` (REML), and `FastKRR` with ExactCV,
+  FastCV, and REML. All methods use exact kernel computation
+  ($n=1000$, $d=3$, $\rho=1$).
 
-- `table5_compare_cv_prediction (n2000d3).Rdata`
+- `table5_compare_cv_prediction (n1000d3).Rdata`
 
   Contains the corresponding predictive-accuracy results.
 

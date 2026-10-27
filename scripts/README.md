@@ -17,6 +17,9 @@ install.packages(c("dplyr", "tidyr", "ggplot2", "tidymodels", "tibble",
                    "xtable", "KRLS", "gKRLS", "kernlab", "FastKRR"))
 ```
 
+   The Table 5 experiment calls `krls()` with `lambda_method = "gcv"` and `approx = "none"`,
+   so a version of `KRLS` that supports these arguments is required.
+
 2. The package FastKRR **v0.2.1** is available on CRAN: https://cran.r-project.org/package=FastKRR
   `install.packages("FastKRR")`
 
