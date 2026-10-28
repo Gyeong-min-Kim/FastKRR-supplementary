@@ -51,7 +51,7 @@ revised manuscript.
 install.packages(c("dplyr", "xtable", "ggplot2", "microbenchmark", "KRMM"))
 ```
 
-2. Install `FastKRR` (CRAN v0.1.2 or later):
+2. Install `FastKRR` (CRAN v0.2.2 or later):
 
 ```r
 install.packages("FastKRR")

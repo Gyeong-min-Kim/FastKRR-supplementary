@@ -360,7 +360,7 @@ replication pipeline for all analyses reported in <strong>Sections
 5–7</strong> of the manuscript.</p>
 <p>Because the full simulations and benchmarking procedures are
 computationally intensive, running the script may require approximately
-<strong>34–37 hours</strong> depending on hardware specifications and
+<strong>40–43 hours</strong> depending on hardware specifications and
 parallelization settings.</p>
 </div>
 <div id="running-the-replication-scripts" class="section level1">
@@ -371,8 +371,17 @@ parallelization settings.</p>
 <pre class="r"><code>install.packages(c(&quot;dplyr&quot;, &quot;tidyr&quot;, &quot;ggplot2&quot;, &quot;tidymodels&quot;, &quot;tibble&quot;,
                    &quot;microbenchmark&quot;, &quot;knitr&quot;, &quot;kableExtra&quot;, &quot;mgcv&quot;,
                    &quot;xtable&quot;, &quot;KRLS&quot;, &quot;gKRLS&quot;, &quot;kernlab&quot;, &quot;FastKRR&quot;))</code></pre>
+<p>The Table 4 experiment calls <code>krls()</code> with
+<code>lambda_method = &quot;gcv&quot;</code> and <code>approx = &quot;none&quot;</code>, so
+a version of <code>KRLS</code> that supports these arguments is
+required. The <code>gKRLS</code> model is fitted using
+<code>mgcv::gam()</code> with <code>method = &quot;REML&quot;</code>,
+<code>sketch_method = &quot;none&quot;</code>, <code>bandwidth = rho</code>,
+<code>standardize = &quot;none&quot;</code>, and
+<code>remove_instability = FALSE</code>, so a version of
+<code>gKRLS</code> that supports these options is also required.</p>
 <ol start="2" style="list-style-type: decimal">
-<li><p>The package FastKRR <strong>v0.2.1</strong> is available on CRAN:
+<li><p>The package FastKRR <strong>v0.2.2</strong> is available on CRAN:
 <a href="https://cran.r-project.org/package=FastKRR" class="uri">https://cran.r-project.org/package=FastKRR</a>
 <code>install.packages(&quot;FastKRR&quot;)</code></p></li>
 <li><p>Load the package: <code>library(FastKRR)</code></p></li>

@@ -365,7 +365,7 @@ lambda_exact_n5000d3 = FastKRR_exact$lambda
 
 
 FastKRR_nystrom = fastkrr(data = data_n5000d3, response = "y", kernel = "gaussian", opt = "nystrom", 
-                          rho = rho, selection_method = "REML", verbose = TRUE)
+                          rho = rho, selection_method = "REML", verbose = TRUE, n_threads = 4)
 lambda_nystrom_n5000d3 = FastKRR_nystrom$lambda
 
 
@@ -375,7 +375,7 @@ lambda_pivoted_n5000d3 = FastKRR_pivoted$lambda
 
 
 FastKRR_rff = fastkrr(data = data_n5000d3, response = "y", kernel = "gaussian", opt = "rff", 
-                      rho = rho, selection_method = "REML", verbose = TRUE)
+                      rho = rho, selection_method = "REML", verbose = TRUE, n_threads = 4)
 lambda_rff_n5000d3 = FastKRR_rff$lambda
 
 
@@ -393,7 +393,7 @@ lambda_exact_n5000d5 = FastKRR_exact$lambda
 
 
 FastKRR_nystrom = fastkrr(data = data_n5000d5, response = "y", kernel = "gaussian", opt = "nystrom", 
-                          rho = rho, selection_method = "REML", verbose = TRUE)
+                          rho = rho, selection_method = "REML", verbose = TRUE, n_threads = 4)
 lambda_nystrom_n5000d5 = FastKRR_nystrom$lambda
 
 
@@ -403,7 +403,7 @@ lambda_pivoted_n5000d5 = FastKRR_pivoted$lambda
 
 
 FastKRR_rff = fastkrr(data = data_n5000d5, response = "y", kernel = "gaussian", opt = "rff", 
-                      rho = rho, selection_method = "REML", verbose = TRUE)
+                      rho = rho, selection_method = "REML", verbose = TRUE, n_threads = 4)
 lambda_rff_n5000d5 = FastKRR_rff$lambda
 
 
@@ -421,7 +421,7 @@ lambda_exact_n5000d7 = FastKRR_exact$lambda
 
 
 FastKRR_nystrom = fastkrr(data = data_n5000d7, response = "y", kernel = "gaussian", opt = "nystrom", 
-                          rho = rho, selection_method = "REML", verbose = TRUE)
+                          rho = rho, selection_method = "REML", verbose = TRUE, n_threads = 4)
 lambda_nystrom_n5000d7 = FastKRR_nystrom$lambda
 
 
@@ -431,7 +431,7 @@ lambda_pivoted_n5000d7 = FastKRR_pivoted$lambda
 
 
 FastKRR_rff = fastkrr(data = data_n5000d7, response = "y", kernel = "gaussian", opt = "rff", 
-                      rho = rho, selection_method = "REML", verbose = TRUE)
+                      rho = rho, selection_method = "REML", verbose = TRUE, n_threads = 4)
 lambda_rff_n5000d7 = FastKRR_rff$lambda
 
 
@@ -449,7 +449,7 @@ lambda_exact_n10000d3 = FastKRR_exact$lambda
 
 
 FastKRR_nystrom = fastkrr(data = data_n10000d3, response = "y", kernel = "gaussian", opt = "nystrom", 
-                          rho = rho, selection_method = "REML", verbose = TRUE)
+                          rho = rho, selection_method = "REML", verbose = TRUE, n_threads = 4)
 lambda_nystrom_n10000d3 = FastKRR_nystrom$lambda
 
 
@@ -459,7 +459,7 @@ lambda_pivoted_n10000d3 = FastKRR_pivoted$lambda
 
 
 FastKRR_rff = fastkrr(data = data_n10000d3, response = "y", kernel = "gaussian", opt = "rff", 
-                      rho = rho, selection_method = "REML", verbose = TRUE)
+                      rho = rho, selection_method = "REML", verbose = TRUE, n_threads = 4)
 lambda_rff_n10000d3 = FastKRR_rff$lambda
 
 
@@ -477,7 +477,7 @@ lambda_exact_n10000d5 = FastKRR_exact$lambda
 
 
 FastKRR_nystrom = fastkrr(data = data_n10000d5, response = "y", kernel = "gaussian", opt = "nystrom", 
-                          rho = rho, selection_method = "REML", verbose = TRUE)
+                          rho = rho, selection_method = "REML", verbose = TRUE, n_threads = 4)
 lambda_nystrom_n10000d5 = FastKRR_nystrom$lambda
 
 
@@ -487,7 +487,7 @@ lambda_pivoted_n10000d5 = FastKRR_pivoted$lambda
 
 
 FastKRR_rff = fastkrr(data = data_n10000d5, response = "y", kernel = "gaussian", opt = "rff", 
-                      rho = rho, selection_method = "REML", verbose = TRUE)
+                      rho = rho, selection_method = "REML", verbose = TRUE, n_threads = 4)
 lambda_rff_n10000d5 = FastKRR_rff$lambda
 
 
@@ -505,7 +505,7 @@ lambda_exact_n10000d7 = FastKRR_exact$lambda
 
 
 FastKRR_nystrom = fastkrr(data = data_n10000d7, response = "y", kernel = "gaussian", opt = "nystrom", 
-                          rho = rho, selection_method = "REML", verbose = TRUE)
+                          rho = rho, selection_method = "REML", verbose = TRUE, n_threads = 4)
 lambda_nystrom_n10000d7 = FastKRR_nystrom$lambda
 
 
@@ -515,7 +515,7 @@ lambda_pivoted_n10000d7 = FastKRR_pivoted$lambda
 
 
 FastKRR_rff = fastkrr(data = data_n10000d7, response = "y", kernel = "gaussian", opt = "rff", 
-                      rho = rho, selection_method = "REML", verbose = TRUE)
+                      rho = rho, selection_method = "REML", verbose = TRUE, n_threads = 4)
 lambda_rff_n10000d7 = FastKRR_rff$lambda
 
 
@@ -523,13 +523,13 @@ lambda_rff_n10000d7 = FastKRR_rff$lambda
 # time table
 time_data = microbenchmark::microbenchmark(
   FastKRR_exact_n5000d3 = fastkrr(data = data_n5000d3, response = "y", kernel = "gaussian", opt = "exact", 
-                                  n_threads = 4, rho = rho, lambda = lambda_exact_n5000d3, verbose = FALSE),
+                                  rho = rho, lambda = lambda_exact_n5000d3, verbose = FALSE),
   
   FastKRR_nystrom_n5000d3 = fastkrr(data = data_n5000d3, response = "y", kernel = "gaussian", opt = "nystrom", 
                                     n_threads = 4, rho = rho, lambda = lambda_nystrom_n5000d3, verbose = FALSE),
   
   FastKRR_pivoted_n5000d3 = fastkrr(data = data_n5000d3, response = "y", kernel = "gaussian", opt = "pivoted",
-                                    n_threads = 4, rho = rho, lambda = lambda_pivoted_n5000d3, verbose = FALSE),
+                                    rho = rho, lambda = lambda_pivoted_n5000d3, verbose = FALSE),
   
   FastKRR_rff_n5000d3 = fastkrr(data = data_n5000d3, response = "y", kernel = "gaussian", opt = "rff", 
                                 n_threads = 4, rho = rho, lambda = lambda_rff_n5000d3, verbose = FALSE),
@@ -538,7 +538,7 @@ time_data = microbenchmark::microbenchmark(
   
   
   FastKRR_exact_n5000d5 = fastkrr(data = data_n5000d5, response = "y", kernel = "gaussian", opt = "exact", 
-                                  n_threads = 4, rho = rho, lambda = lambda_exact_n5000d5, verbose = FALSE),
+                                   rho = rho, lambda = lambda_exact_n5000d5, verbose = FALSE),
   
   FastKRR_nystrom_n5000d5 = fastkrr(data = data_n5000d5, response = "y", kernel = "gaussian", opt = "nystrom", 
                                     n_threads = 4, rho = rho, lambda = lambda_nystrom_n5000d5, verbose = FALSE),
@@ -553,13 +553,13 @@ time_data = microbenchmark::microbenchmark(
   
   
   FastKRR_exact_n5000d7 = fastkrr(data = data_n5000d7, response = "y", kernel = "gaussian", opt = "exact", 
-                                  n_threads = 4, rho = rho, lambda = lambda_exact_n5000d7, verbose = FALSE),
+                                  rho = rho, lambda = lambda_exact_n5000d7, verbose = FALSE),
   
   FastKRR_nystrom_n5000d7 = fastkrr(data = data_n5000d7, response = "y", kernel = "gaussian", opt = "nystrom", 
                                     n_threads = 4, rho = rho, lambda = lambda_nystrom_n5000d7, verbose = FALSE),
   
   FastKRR_pivoted_n5000d7 = fastkrr(data = data_n5000d7, response = "y", kernel = "gaussian", opt = "pivoted",
-                                    n_threads = 4, rho = rho, lambda = lambda_pivoted_n5000d7, verbose = FALSE),
+                                    rho = rho, lambda = lambda_pivoted_n5000d7, verbose = FALSE),
   
   FastKRR_rff_n5000d7 = fastkrr(data = data_n5000d7, response = "y", kernel = "gaussian", opt = "rff", 
                                 n_threads = 4, rho = rho, lambda = lambda_rff_n5000d7, verbose = FALSE),
@@ -568,13 +568,13 @@ time_data = microbenchmark::microbenchmark(
   
   
   FastKRR_exact_n10000d3 = fastkrr(data = data_n10000d3, response = "y", kernel = "gaussian", opt = "exact", 
-                                   n_threads = 4, rho = rho, lambda = lambda_exact_n10000d3, verbose = FALSE),
+                                   rho = rho, lambda = lambda_exact_n10000d3, verbose = FALSE),
   
   FastKRR_nystrom_n10000d3 = fastkrr(data = data_n10000d3, response = "y", kernel = "gaussian", opt = "nystrom", 
                                      n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE),
   
   FastKRR_pivoted_n10000d3 = fastkrr(data = data_n10000d3, response = "y", kernel = "gaussian", opt = "pivoted",
-                                     n_threads = 4, rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE),
+                                     rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE),
   
   FastKRR_rff_n10000d3 = fastkrr(data = data_n10000d3, response = "y", kernel = "gaussian", opt = "rff", 
                                  n_threads = 4, rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE),
@@ -582,13 +582,13 @@ time_data = microbenchmark::microbenchmark(
   
   
   FastKRR_exact_n10000d5 = fastkrr(data = data_n10000d5, response = "y", kernel = "gaussian", opt = "exact", 
-                                   n_threads = 4, rho = rho, lambda = lambda_exact_n10000d5, verbose = FALSE),
+                                    rho = rho, lambda = lambda_exact_n10000d5, verbose = FALSE),
   
   FastKRR_nystrom_n10000d5 = fastkrr(data = data_n10000d5, response = "y", kernel = "gaussian", opt = "nystrom", 
                                      n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d5, verbose = FALSE),
   
   FastKRR_pivoted_n10000d5 = fastkrr(data = data_n10000d5, response = "y", kernel = "gaussian", opt = "pivoted",
-                                     n_threads = 4, rho = rho, lambda = lambda_pivoted_n10000d5, verbose = FALSE),
+                                     rho = rho, lambda = lambda_pivoted_n10000d5, verbose = FALSE),
   
   FastKRR_rff_n10000d5 = fastkrr(data = data_n10000d5, response = "y", kernel = "gaussian", opt = "rff", 
                                  n_threads = 4, rho = rho, lambda = lambda_rff_n10000d5, verbose = FALSE),
@@ -597,13 +597,13 @@ time_data = microbenchmark::microbenchmark(
   
   
   FastKRR_exact_n10000d7 = fastkrr(data = data_n10000d7, response = "y", kernel = "gaussian", opt = "exact", 
-                                   n_threads = 4, rho = rho, lambda = lambda_exact_n10000d7, verbose = FALSE),
+                                   rho = rho, lambda = lambda_exact_n10000d7, verbose = FALSE),
   
   FastKRR_nystrom_n10000d7 = fastkrr(data = data_n10000d7, response = "y", kernel = "gaussian", opt = "nystrom", 
                                      n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d7, verbose = FALSE),
   
   FastKRR_pivoted_n10000d7 = fastkrr(data = data_n10000d7, response = "y", kernel = "gaussian", opt = "pivoted",
-                                     n_threads = 4, rho = rho, lambda = lambda_pivoted_n10000d7, verbose = FALSE),
+                                     rho = rho, lambda = lambda_pivoted_n10000d7, verbose = FALSE),
   
   FastKRR_rff_n10000d7 = fastkrr(data = data_n10000d7, response = "y", kernel = "gaussian", opt = "rff", 
                                  n_threads = 4, rho = rho, lambda = lambda_rff_n10000d7, verbose = FALSE),
@@ -652,13 +652,13 @@ for(rep in 1:100){
                           rho = rho, lambda = lambda_exact_n5000d3, verbose = FALSE)
   
   FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom", 
-                            rho = rho, lambda = lambda_nystrom_n5000d3, verbose = FALSE)
+                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n5000d3, verbose = FALSE)
   
   FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
                             rho = rho, lambda = lambda_pivoted_n5000d3, verbose = FALSE)
   
   FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff", 
-                        rho = rho, lambda = lambda_rff_n5000d3, verbose = FALSE)
+                        n_threads = 4, rho = rho, lambda = lambda_rff_n5000d3, verbose = FALSE)
   
   
   compare_packages_exact_n5000d3$exact[[rep]] =  as.vector(y_z - predict(object = FastKRR_exact, newdata = z))
@@ -690,13 +690,13 @@ for(rep in 1:100){
                           rho = rho, lambda = lambda_exact_n5000d5, verbose = FALSE)
   
   FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom", 
-                            rho = rho, lambda = lambda_nystrom_n5000d5, verbose = FALSE)
+                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n5000d5, verbose = FALSE)
   
   FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
                             rho = rho, lambda = lambda_pivoted_n5000d5, verbose = FALSE)
   
   FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff", 
-                        rho = rho, lambda = lambda_rff_n5000d5, verbose = FALSE)
+                        n_threads = 4, rho = rho, lambda = lambda_rff_n5000d5, verbose = FALSE)
   
   
   
@@ -730,13 +730,13 @@ for(rep in 1:100){
                           rho = rho, lambda = lambda_exact_n5000d7, verbose = FALSE)
   
   FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom", 
-                            rho = rho, lambda = lambda_nystrom_n5000d7, verbose = FALSE)
+                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n5000d7, verbose = FALSE)
   
   FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
                             rho = rho, lambda = lambda_pivoted_n5000d7, verbose = FALSE)
   
   FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff", 
-                        rho = rho, lambda = lambda_rff_n5000d7, verbose = FALSE)
+                        n_threads = 4, rho = rho, lambda = lambda_rff_n5000d7, verbose = FALSE)
   
   
   
@@ -770,13 +770,13 @@ for(rep in 1:100){
                           rho = rho, lambda = lambda_exact_n10000d3, verbose = FALSE)
   
   FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom", 
-                            rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE)
+                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE)
   
   FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
                             rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE)
   
   FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff", 
-                        rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE)
+                        n_threads = 4, rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE)
   
   
   compare_packages_exact_n10000d3$exact[[rep]] =  as.vector(y_z - predict(object = FastKRR_exact, newdata = z))
@@ -808,13 +808,13 @@ for(rep in 1:100){
                           rho = rho, lambda = lambda_exact_n10000d5, verbose = FALSE)
   
   FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom", 
-                            rho = rho, lambda = lambda_nystrom_n10000d5, verbose = FALSE)
+                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d5, verbose = FALSE)
   
   FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
                             rho = rho, lambda = lambda_pivoted_n10000d5, verbose = FALSE)
   
   FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff", 
-                        rho = rho, lambda = lambda_rff_n10000d5, verbose = FALSE)
+                        n_threads = 4, rho = rho, lambda = lambda_rff_n10000d5, verbose = FALSE)
   
   
   
@@ -848,13 +848,13 @@ for(rep in 1:100){
                           rho = rho, lambda = lambda_exact_n10000d7, verbose = FALSE)
   
   FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom", 
-                            rho = rho, lambda = lambda_nystrom_n10000d7, verbose = FALSE)
+                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d7, verbose = FALSE)
   
   FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
                             rho = rho, lambda = lambda_pivoted_n10000d7, verbose = FALSE)
   
   FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff", 
-                        rho = rho, lambda = lambda_rff_n10000d7, verbose = FALSE)
+                        n_threads = 4, rho = rho, lambda = lambda_rff_n10000d7, verbose = FALSE)
   
   
   
@@ -1020,7 +1020,7 @@ sp_gkrls_n10000d3 = model_gkrls_tune$sp
 
 # ---- FastKRR: CVST(REML)로 튜닝 ----
 FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom",
-                          rho = rho, selection_method = "REML", verbose = TRUE)
+                          n_threads = 4, rho = rho, selection_method = "REML", verbose = TRUE)
 
 lambda_nystrom_n10000d3 = FastKRR_nystrom$lambda
 
@@ -1032,7 +1032,7 @@ lambda_pivoted_n10000d3 = FastKRR_pivoted$lambda
 
 
 FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff",
-                      rho = rho, selection_method = "REML", verbose = TRUE)
+                      n_threads = 4, rho = rho, selection_method = "REML", verbose = TRUE)
 
 lambda_rff_n10000d3 = FastKRR_rff$lambda
 
@@ -1053,13 +1053,13 @@ krr_pkg_compare_n10000d3 = microbenchmark::microbenchmark(
               data = data,
               sp = sp_gkrls_n10000d3),
   
-  FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom",
+  FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom", n_threads = 4,
                             rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = 111),
   
-  FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
+  FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted", 
                             rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE, m = 111),
   
-  FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff",
+  FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff", n_threads = 4,
                         rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = 111),
   times = 100,
   unit = "ms"
@@ -1108,13 +1108,13 @@ for (rep in 1:100) {
   
   # ---- FastKRR (lambda 고정, fastcv 없이) ----
   FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom",
-                            rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = 111)
+                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = 111)
   
   FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
                             rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE, m = 111)
   
   FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff",
-                        rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = 111)
+                        n_threads = 4, rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = 111)
   
   # ---- 저장 ----
   compare_packages_approx_n10000d3$KRLS[[rep]]           = as.vector(y_z - pred_krls)
@@ -1165,7 +1165,7 @@ sp_gkrls_n10000d3 = model_gkrls_tune$sp
 
 # ---- FastKRR: CVST(REML)로 튜닝 ----
 FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom",
-                          rho = rho, selection_method = "REML", verbose = TRUE)
+                          n_threads = 4, rho = rho, selection_method = "REML", verbose = TRUE)
 
 lambda_nystrom_n10000d3 = FastKRR_nystrom$lambda
 
@@ -1177,7 +1177,7 @@ lambda_pivoted_n10000d3 = FastKRR_pivoted$lambda
 
 
 FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff",
-                      rho = rho, selection_method = "REML", verbose = TRUE)
+                      n_threads = 4, rho = rho, selection_method = "REML", verbose = TRUE)
 
 lambda_rff_n10000d3 = FastKRR_rff$lambda
 
@@ -1197,14 +1197,14 @@ krr_pkg_compare_n10000d3 = microbenchmark::microbenchmark(
               data = data,
               sp = sp_gkrls_n10000d3),
   
-  FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom",
-                            rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = 208),
+  FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom", n_threads = 4,
+                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = 208),
   
   FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
                             rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE, m = 208),
   
-  FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff",
-                        rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = 208),
+  FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff", n_threads = 4,
+                        n_threads = 4, rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = 208),
   times = 100,
   unit = "ms"
 )
@@ -1251,13 +1251,13 @@ for (rep in 1:100) {
   
   # ---- FastKRR (lambda 고정, fastcv 없이) ----
   FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom",
-                            rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = 208)
+                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = 208)
   
   FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
                             rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE, m = 208)
   
   FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff",
-                        rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = 208)
+                        n_threads = 4, rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = 208)
   
   # ---- 저장 ----
   compare_packages_approx_n10000d3$KRLS[[rep]]           = as.vector(y_z - pred_krls)
@@ -1361,13 +1361,13 @@ time_data_cv_n1000d3 = microbenchmark::microbenchmark(
                            data = data_n1000d3, method = "REML"),
 
   FastKRR_exactcv_n1000d3= fastkrr(data = data_n1000d3, response = "y", kernel = "gaussian", opt = "exact", 
-                                    n_threads = 4, rho = rho, lambda = lambda, selection_method = "exactCV", verbose = FALSE),
+                                   rho = rho, lambda = lambda, selection_method = "exactCV", verbose = FALSE),
   
   FastKRR_fastcv_n1000d3 = fastkrr(data = data_n1000d3, response = "y", kernel = "gaussian", opt = "exact", 
-                                   n_threads = 4, rho = rho, lambda = lambda, selection_method = "fastCV", verbose = FALSE),
+                                   rho = rho, lambda = lambda, selection_method = "fastCV", verbose = FALSE),
   
   FastKRR_reml_n1000d3 = fastkrr(data = data_n1000d3, response = "y", kernel = "gaussian", opt = "exact", 
-                                 n_threads = 4, rho = rho, lambda = lambda_reml, selection_method = "REML", verbose = FALSE),
+                                 rho = rho, lambda = lambda_reml, selection_method = "REML", verbose = FALSE),
   
   times = 100,
   unit = "ms"
@@ -1403,13 +1403,13 @@ for(rep in 1:100){
                    data = data, method = "REML")
 
   FastKRR_exactCV= fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact",
-                            n_threads = 4, rho = rho, lambda = lambda, selection_method = "exactCV", verbose = FALSE)
+                          rho = rho, lambda = lambda, selection_method = "exactCV", verbose = FALSE)
   
   FastKRR_fastCV = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact", 
-                           n_threads = 4, rho = rho, lambda = lambda, selection_method = "fastCV", verbose = FALSE)
+                          rho = rho, lambda = lambda, selection_method = "fastCV", verbose = FALSE)
   
   FastKRR_reml = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact",
-                         n_threads = 4, rho = rho, lambda = lambda_reml, selection_method = "REML", verbose = FALSE)
+                         rho = rho, lambda = lambda_reml, selection_method = "REML", verbose = FALSE)
   
   compare_cv_pred_n1000d3$KRLS_gcv[[rep]] =  as.vector(y_z - predict(object = KRLS_gcv, newdata = z)$fit)
   compare_cv_pred_n1000d3$gKRLS_reml[[rep]] =  as.vector(y_z - predict(object = gKRLS_reml, newdata = z_frame))
@@ -1533,6 +1533,36 @@ pred = predict(final_fit, ames_test) %>%
   bind_cols(ames_test %>% select(Sale_Price))
 
 metrics(pred, truth = Sale_Price, estimate = .pred)
+
+location_grid = expand_grid(
+  Longitude = seq(min(ames_train$Longitude),
+                  max(ames_train$Longitude), length.out = 150),
+  Latitude = seq(min(ames_train$Latitude),
+                 max(ames_train$Latitude), length.out = 150)
+)
+
+surface = predict(final_fit, new_data = location_grid) %>%
+  bind_cols(location_grid)
+
+ggplot(surface, aes(Longitude, Latitude)) +
+  geom_contour_filled(
+    aes(z = .pred, fill = after_stat(level_mid)), bins = 10
+  ) +
+  geom_contour(
+    aes(z = .pred), bins = 10,
+    colour = "white", linewidth = 0.3, alpha = 0.7
+  ) +
+  geom_point(data = ames_train, size = 0.3, alpha = 0.3) +
+  scale_fill_viridis_c(
+    name = "Fitted price (USD)",
+    breaks = log10(c(100000, 200000, 400000, 800000)),
+    labels = c("100k", "200k", "400k", "800k")
+  ) +
+  scale_x_continuous(labels = scales::label_number(accuracy = 0.001)) +
+  scale_y_continuous(labels = scales::label_number(accuracy = 0.001)) +
+  coord_quickmap() +
+  labs(x = "Longitude", y = "Latitude") +
+  theme(panel.grid = element_blank())
 
 end_time = Sys.time()
 elapsed = end_time - start_time

@@ -5,7 +5,7 @@ the complete replication pipeline for all analyses reported in **Sections 5–7*
 of the manuscript.
 
 Because the full simulations and benchmarking procedures are computationally intensive, 
-running the script may require approximately **34–37 hours** depending on hardware specifications and parallelization settings.
+running the script may require approximately **40–43 hours** depending on hardware specifications and parallelization settings.
 
 # Running the replication scripts
 
@@ -19,8 +19,11 @@ install.packages(c("dplyr", "tidyr", "ggplot2", "tidymodels", "tibble",
 
    The Table 4 experiment calls `krls()` with `lambda_method = "gcv"` and `approx = "none"`,
    so a version of `KRLS` that supports these arguments is required.
+   The `gKRLS` model is fitted using `mgcv::gam()` with `method = "REML"`, `sketch_method = "none"`, 
+   `bandwidth = rho`, `standardize = "none"`, and `remove_instability = FALSE`, 
+   so a version of `gKRLS` that supports these options is also required.
 
-2. The package FastKRR **v0.2.1** is available on CRAN: https://cran.r-project.org/package=FastKRR
+2. The package FastKRR **v0.2.2** is available on CRAN: https://cran.r-project.org/package=FastKRR
   `install.packages("FastKRR")`
 
 
