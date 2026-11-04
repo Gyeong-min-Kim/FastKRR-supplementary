@@ -1,4 +1,5 @@
 rm(list = ls())
+dir.create("output", showWarnings = FALSE)
 ###### REQUIRED PACKAGES -------------------------------------------------------
 library(FastKRR)
 library(dplyr)
@@ -254,6 +255,7 @@ summarize_package_comparison = function(
     )
 }
 
+
 calc_metric = function(pkg_error_list) {
   mse = sapply(pkg_error_list, function(err) {
     err = as.vector(err)
@@ -265,9 +267,9 @@ calc_metric = function(pkg_error_list) {
   })
   data.frame(
     MSE_mean = mean(mse, na.rm = TRUE),
-    MSE_se   = sd(mse, na.rm = TRUE),
+    MSE_se   = sd(mse, na.rm = TRUE)/sqrt(100),
     MAE_mean = mean(mae, na.rm = TRUE),
-    MAE_se   = sd(mae, na.rm = TRUE)
+    MAE_se   = sd(mae, na.rm = TRUE)/sqrt(100)
   )
 }
 
@@ -366,6 +368,7 @@ lambda_exact_n5000d3 = FastKRR_exact$lambda
 
 FastKRR_nystrom = fastkrr(data = data_n5000d3, response = "y", kernel = "gaussian", opt = "nystrom", 
                           rho = rho, selection_method = "REML", verbose = TRUE, n_threads = 4)
+
 lambda_nystrom_n5000d3 = FastKRR_nystrom$lambda
 
 
@@ -516,6 +519,7 @@ lambda_pivoted_n10000d7 = FastKRR_pivoted$lambda
 
 FastKRR_rff = fastkrr(data = data_n10000d7, response = "y", kernel = "gaussian", opt = "rff", 
                       rho = rho, selection_method = "REML", verbose = TRUE, n_threads = 4)
+
 lambda_rff_n10000d7 = FastKRR_rff$lambda
 
 
@@ -645,7 +649,7 @@ for(rep in 1:100){
   
   n_z = ceiling(1.2 * n)
   
-  z = matrix(seq(0, 1, len = n_z * d),n_z, d)
+  z = matrix(runif(n_z*d, 0, 1), n_z, d)
   y_z = as.vector(sin(2*pi*rowMeans(z)^3))
   
   FastKRR_exact = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact", 
@@ -683,7 +687,7 @@ for(rep in 1:100){
   
   n_z = ceiling(1.2 * n)
   
-  z = matrix(seq(0, 1, len = n_z * d),n_z, d)
+  z = matrix(runif(n_z*d, 0, 1), n_z, d)
   y_z = as.vector(sin(2*pi*rowMeans(z)^3))
   
   FastKRR_exact = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact", 
@@ -723,7 +727,7 @@ for(rep in 1:100){
   
   n_z = ceiling(1.2 * n)
   
-  z = matrix(seq(0, 1, len = n_z * d),n_z, d)
+  z = matrix(runif(n_z*d, 0, 1), n_z, d)
   y_z = as.vector(sin(2*pi*rowMeans(z)^3))
   
   FastKRR_exact = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact", 
@@ -763,7 +767,7 @@ for(rep in 1:100){
   
   n_z = ceiling(1.2 * n)
   
-  z = matrix(seq(0, 1, len = n_z * d),n_z, d)
+  z = matrix(runif(n_z*d, 0, 1), n_z, d)
   y_z = as.vector(sin(2*pi*rowMeans(z)^3))
   
   FastKRR_exact = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact", 
@@ -801,7 +805,7 @@ for(rep in 1:100){
   
   n_z = ceiling(1.2 * n)
   
-  z = matrix(seq(0, 1, len = n_z * d),n_z, d)
+  z = matrix(runif(n_z*d, 0, 1), n_z, d)
   y_z = as.vector(sin(2*pi*rowMeans(z)^3))
   
   FastKRR_exact = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact", 
@@ -841,7 +845,7 @@ for(rep in 1:100){
   
   n_z = ceiling(1.2 * n)
   
-  z = matrix(seq(0, 1, len = n_z * d),n_z, d)
+  z = matrix(runif(n_z*d, 0, 1), n_z, d)
   y_z = as.vector(sin(2*pi*rowMeans(z)^3))
   
   FastKRR_exact = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact", 
@@ -983,8 +987,148 @@ final_tbl_print = final_tbl %>%
     `MAE (SE)`
   )
 
+## 6.3 Model selection efficiency
+#simualtion---------------------------------------------------------------------
+set.seed(1)
+n = 1000 
+d = 3
+rho = 1
+lambda = 10^seq(-11, -7, length.out = 100)
+lambda_reml = c(10^(-11), 10^(-7))
 
-## 6.3 Efficiency of the approximation methods in FastKR
+X = matrix(runif(n*d, 0, 1), nrow = n, ncol = d)
+y = as.vector(sin(2*pi*rowMeans(X)^3) + rnorm(n, 0, 0.1))
+data_n1000d3 = data.frame(X, y)
+colnames(data_n1000d3) = c("X1", "X2", "X3", "y")
+
+# time (lambda selection included: KRLS = GCV, gKRLS = REML, FastKRR = exactCV / fastCV / REML)
+time_data_cv_n1000d3 = microbenchmark::microbenchmark(
+  KRLS_gcv_n1000d3 = krls(X = as.matrix(data_n1000d3[, c("X1", "X2", "X3")]), y = data_n1000d3$y,
+                          whichkernel = "gaussian", sigma = rho, lambda_method = "gcv", approx = "none",
+                          derivative = FALSE, binary = FALSE, vcov = FALSE),
+  
+  gKRLS_reml_n1000d3 = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
+                                 xt = gKRLS(sketch_method = "none", bandwidth = rho,
+                                            standardize = "none", remove_instability = FALSE)),
+                           data = data_n1000d3, method = "REML"),
+  
+  FastKRR_exactcv_n1000d3= fastkrr(data = data_n1000d3, response = "y", kernel = "gaussian", opt = "exact", 
+                                   rho = rho, lambda = lambda, selection_method = "exactCV", verbose = FALSE),
+  
+  FastKRR_fastcv_n1000d3 = fastkrr(data = data_n1000d3, response = "y", kernel = "gaussian", opt = "exact", 
+                                   rho = rho, lambda = lambda, selection_method = "fastCV", verbose = FALSE),
+  
+  FastKRR_reml_n1000d3 = fastkrr(data = data_n1000d3, response = "y", kernel = "gaussian", opt = "exact", 
+                                 rho = rho, lambda = lambda_reml, selection_method = "REML", verbose = FALSE),
+  
+  times = 100,
+  unit = "ms"
+)
+
+
+save(time_data_cv_n1000d3, file = "output/table4_compare_time_cv.Rdata")
+
+# pred
+compare_cv_pred_n1000d3 = list()
+
+for(rep in 1:100){
+  n = 1000
+  d = 3
+  X = matrix(runif(n*d,0, 1),n,d)
+  y = as.vector(sin(2*pi*rowMeans(X)^3) + rnorm(n, 0, 0.1))
+  
+  data = data.frame(X, y)
+  colnames(data) = c("X1", "X2", "X3", "y")
+  
+  n_z = ceiling(1.2 * n)
+  z = matrix(runif(n_z*d, 0, 1), n_z, d)
+  colnames(z) = c("X1", "X2", "X3")
+  z_frame = as.data.frame(z)
+  y_z = as.vector(sin(2*pi*rowMeans(z)^3))
+  
+  KRLS_gcv = krls(X = X, y = y, whichkernel = "gaussian", sigma = rho, lambda_method = "gcv",
+                  approx = "none", derivative = FALSE, binary = FALSE, vcov = FALSE)
+  
+  gKRLS_reml = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
+                         xt = gKRLS(sketch_method = "none", bandwidth = rho,
+                                    standardize = "none", remove_instability = FALSE)),
+                   data = data, method = "REML")
+  
+  FastKRR_exactCV= fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact",
+                           rho = rho, lambda = lambda, selection_method = "exactCV", verbose = FALSE)
+  
+  FastKRR_fastCV = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact", 
+                           rho = rho, lambda = lambda, selection_method = "fastCV", verbose = FALSE)
+  
+  FastKRR_reml = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact",
+                         rho = rho, lambda = lambda_reml, selection_method = "REML", verbose = FALSE)
+  
+  compare_cv_pred_n1000d3$KRLS_gcv[[rep]] =  as.vector(y_z - predict(object = KRLS_gcv, newdata = z)$fit)
+  compare_cv_pred_n1000d3$gKRLS_reml[[rep]] =  as.vector(y_z - predict(object = gKRLS_reml, newdata = z_frame))
+  compare_cv_pred_n1000d3$exactCV[[rep]] =  as.vector(y_z - predict(object = FastKRR_exactCV, newdata = z))
+  compare_cv_pred_n1000d3$fastCV[[rep]] =  as.vector(y_z - predict(object = FastKRR_fastCV, newdata = z))
+  compare_cv_pred_n1000d3$reml[[rep]] =  as.vector(y_z - predict(object = FastKRR_reml, newdata = z))
+  
+}
+
+save(compare_cv_pred_n1000d3, file = "output/table4_compare_cv_prediction (n1000d3).Rdata")
+
+
+df = as.data.frame(time_data_cv_n1000d3)
+
+
+df$expr = factor(
+  df$expr,
+  levels = c("KRLS_gcv_n1000d3", "gKRLS_reml_n1000d3", "FastKRR_exactcv_n1000d3", "FastKRR_fastcv_n1000d3", "FastKRR_reml_n1000d3"),
+  labels = c("KRLS (GCV)", "gKRLS (REML)", "FastKRR (ExactCV)", "FastKRR (FastCV)", "FastKRR (REML)")
+)
+
+summary_cv = df %>%
+  group_by(expr) %>%
+  summarize(
+    Mean     = mean(time) / 1e9,
+    SE       = sd(time) / sqrt(100) / 1e9,
+    Median   = median(time) / 1e9,
+    .groups  = "drop"
+  )
+
+colnames(summary_cv)[colnames(summary_cv) == "expr"] = "Option"
+
+summary_cv_pred_n1000d3 = do.call(rbind, lapply(compare_cv_pred_n1000d3, calc_metric))
+summary_cv_table4 = cbind(summary_cv, summary_cv_pred_n1000d3)
+
+summary_cv_table4 = summary_cv_table4 %>%mutate(
+  `Mean (SE)` = sprintf("%.4f (%.4f)", Mean, SE),
+  
+  Median = sprintf(
+    "%.4f",
+    Median
+  ),
+  
+  `MSE (SE)` = sprintf(
+    "%.4f (%.4f)",
+    MSE_mean,
+    MSE_se
+  ),
+  
+  `MAE (SE)` = sprintf(
+    "%.4f (%.4f)",
+    MAE_mean,
+    MAE_se
+  )
+) %>%
+  select(
+    Option,
+    `Mean (SE)`,
+    Median,
+    `MSE (SE)`,
+    `MAE (SE)`
+  )
+
+rownames(summary_cv_table4) = NULL
+
+
+## 6.4 Efficiency of the approximation methods in FastKRR
 #m = 111
 #data generate
 n = 10000
@@ -996,7 +1140,7 @@ y = as.vector(sin(2*pi*rowMeans(X)^3) + rnorm(n, 0, 0.1))
 data = data.frame(X, y = y)
 
 m = 111
-# ---- KRLS: LOOCV로 튜닝 ----
+# ---- KRLS: LOOCV ----
 model_krls_tune = krls(X = X, y = y, whichkernel = "gaussian",
                        sigma = rho, derivative = FALSE,
                        binary = FALSE, vcov = FALSE,
@@ -1004,7 +1148,7 @@ model_krls_tune = krls(X = X, y = y, whichkernel = "gaussian",
 
 lambda_krls_n10000d3 = model_krls_tune$lambda
 
-# ---- gKRLS: REML로 튜닝 ----
+# ---- gKRLS: REML ----
 model_gkrls_tune = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
                              xt = gKRLS(
                                sketch_method = "subsampling",
@@ -1018,26 +1162,25 @@ model_gkrls_tune = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
 sp_gkrls_n10000d3 = model_gkrls_tune$sp
 
 
-# ---- FastKRR: CVST(REML)로 튜닝 ----
+# ---- FastKRR: CVST(REML) ----
 FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom",
-                          n_threads = 4, rho = rho, selection_method = "REML", verbose = TRUE)
+                          n_threads = 4, rho = rho, selection_method = "REML", verbose = TRUE, m = m)
 
 lambda_nystrom_n10000d3 = FastKRR_nystrom$lambda
 
 
 FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
-                          rho = rho, selection_method = "REML", verbose = TRUE)
+                          rho = rho, selection_method = "REML", verbose = TRUE, m = m)
 
 lambda_pivoted_n10000d3 = FastKRR_pivoted$lambda
 
 
 FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff",
-                      n_threads = 4, rho = rho, selection_method = "REML", verbose = TRUE)
+                      n_threads = 4, rho = rho, selection_method = "REML", verbose = TRUE, m = m)
 
 lambda_rff_n10000d3 = FastKRR_rff$lambda
 
 ##time
-## 시간
 krr_pkg_compare_n10000d3 = microbenchmark::microbenchmark(
   KRLS = krls(X = X, y = y, whichkernel = "gaussian",
               sigma = rho, derivative = FALSE, lambda = lambda_krls_n10000d3,
@@ -1046,7 +1189,7 @@ krr_pkg_compare_n10000d3 = microbenchmark::microbenchmark(
   gKRLS = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
                     xt = gKRLS(
                       sketch_method = "subsampling",
-                      sketch_size_raw = 111,
+                      sketch_size_raw = m,
                       sketch_multiplier = NULL,
                       remove_instability = TRUE
                     )),
@@ -1054,13 +1197,13 @@ krr_pkg_compare_n10000d3 = microbenchmark::microbenchmark(
               sp = sp_gkrls_n10000d3),
   
   FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom", n_threads = 4,
-                            rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = 111),
+                            rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = m),
   
   FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted", 
-                            rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE, m = 111),
+                            rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE, m = m),
   
   FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff", n_threads = 4,
-                        rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = 111),
+                        rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = m),
   times = 100,
   unit = "ms"
 )
@@ -1091,14 +1234,14 @@ for (rep in 1:100) {
   # ---- KRLS (lambda 고정) ----
   model_krls = krls(X = X, y = y, whichkernel = "gaussian",
                     sigma = rho, derivative = FALSE, lambda = lambda_krls_n10000d3,
-                    binary = FALSE, vcov = FALSE, approx = "nystrom", nystrom_m = 111)
+                    binary = FALSE, vcov = FALSE, approx = "nystrom", nystrom_m = m)
   pred_krls = predict(object = model_krls, newdata = as.matrix(z))$fit
   
   # ---- gKRLS (sp 고정) ----
   model_gkrls = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
                           xt = gKRLS(
                             sketch_method = "subsampling",
-                            sketch_size_raw = 111,
+                            sketch_size_raw = m,
                             sketch_multiplier = NULL,
                             remove_instability = TRUE
                           )),
@@ -1108,13 +1251,13 @@ for (rep in 1:100) {
   
   # ---- FastKRR (lambda 고정, fastcv 없이) ----
   FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom",
-                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = 111)
+                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = m)
   
   FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
-                            rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE, m = 111)
+                            rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE, m = m)
   
   FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff",
-                        n_threads = 4, rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = 111)
+                        n_threads = 4, rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = m)
   
   # ---- 저장 ----
   compare_packages_approx_n10000d3$KRLS[[rep]]           = as.vector(y_z - pred_krls)
@@ -1140,7 +1283,7 @@ data = data.frame(X, y = y)
 m = ceiling(n^(1/2) * log(d + 5))
 m
 
-# ---- KRLS: LOOCV로 튜닝 ----
+# ---- KRLS: LOOCV ----
 model_krls_tune = krls(X = X, y = y, whichkernel = "gaussian",
                        sigma = rho, derivative = FALSE,
                        binary = FALSE, vcov = FALSE,
@@ -1149,7 +1292,7 @@ model_krls_tune = krls(X = X, y = y, whichkernel = "gaussian",
 lambda_krls_n10000d3 = model_krls_tune$lambda
 
 
-# ---- gKRLS: REML로 튜닝 ----
+# ---- gKRLS: REML ----
 model_gkrls_tune = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
                              xt = gKRLS(
                                sketch_method = "subsampling",
@@ -1163,21 +1306,21 @@ model_gkrls_tune = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
 sp_gkrls_n10000d3 = model_gkrls_tune$sp
 
 
-# ---- FastKRR: CVST(REML)로 튜닝 ----
+# ---- FastKRR: CVST(REML) ----
 FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom",
-                          n_threads = 4, rho = rho, selection_method = "REML", verbose = TRUE)
+                          n_threads = 4, rho = rho, selection_method = "REML", verbose = TRUE, m = m)
 
 lambda_nystrom_n10000d3 = FastKRR_nystrom$lambda
 
 
 FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
-                          rho = rho, selection_method = "REML", verbose = TRUE)
+                          rho = rho, selection_method = "REML", verbose = TRUE, m = m)
 
 lambda_pivoted_n10000d3 = FastKRR_pivoted$lambda
 
 
 FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff",
-                      n_threads = 4, rho = rho, selection_method = "REML", verbose = TRUE)
+                      n_threads = 4, rho = rho, selection_method = "REML", verbose = TRUE, m = m)
 
 lambda_rff_n10000d3 = FastKRR_rff$lambda
 
@@ -1185,26 +1328,26 @@ lambda_rff_n10000d3 = FastKRR_rff$lambda
 krr_pkg_compare_n10000d3 = microbenchmark::microbenchmark(
   KRLS = krls(X = X, y = y, whichkernel = "gaussian",
               sigma = rho, derivative = FALSE, lambda = lambda_krls_n10000d3,
-              binary = FALSE, vcov = FALSE, approx = "nystrom", nystrom_m = 208),
+              binary = FALSE, vcov = FALSE, approx = "nystrom", nystrom_m = m),
   
   gKRLS = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
                     xt = gKRLS(
                       sketch_method = "subsampling",
-                      sketch_size_raw = 208,
+                      sketch_size_raw = m,
                       sketch_multiplier = NULL,
                       remove_instability = TRUE
                     )),
               data = data,
               sp = sp_gkrls_n10000d3),
   
-  FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom", n_threads = 4,
-                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = 208),
+  FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom",
+                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = m),
   
   FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
-                            rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE, m = 208),
+                            rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE, m = m),
   
-  FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff", n_threads = 4,
-                        n_threads = 4, rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = 208),
+  FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff", 
+                        n_threads = 4, rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = m),
   times = 100,
   unit = "ms"
 )
@@ -1234,14 +1377,14 @@ for (rep in 1:100) {
   # ---- KRLS (lambda 고정) ----
   model_krls = krls(X = X, y = y, whichkernel = "gaussian",
                     sigma = rho, derivative = FALSE, lambda = lambda_krls_n10000d3,
-                    binary = FALSE, vcov = FALSE, approx = "nystrom", nystrom_m = 208)
+                    binary = FALSE, vcov = FALSE, approx = "nystrom", nystrom_m = m)
   pred_krls = predict(object = model_krls, newdata = as.matrix(z))$fit
   
   # ---- gKRLS (sp 고정) ----
   model_gkrls = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
                           xt = gKRLS(
                             sketch_method = "subsampling",
-                            sketch_size_raw = 208,
+                            sketch_size_raw = m,
                             sketch_multiplier = NULL,
                             remove_instability = TRUE
                           )),
@@ -1251,13 +1394,13 @@ for (rep in 1:100) {
   
   # ---- FastKRR (lambda 고정, fastcv 없이) ----
   FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom",
-                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = 208)
+                            n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = m)
   
   FastKRR_pivoted = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "pivoted",
-                            rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE, m = 208)
+                            rho = rho, lambda = lambda_pivoted_n10000d3, verbose = FALSE, m = m)
   
   FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff",
-                        n_threads = 4, rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = 208)
+                        n_threads = 4, rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = m)
   
   # ---- 저장 ----
   compare_packages_approx_n10000d3$KRLS[[rep]]           = as.vector(y_z - pred_krls)
@@ -1335,145 +1478,6 @@ table_final = bind_rows(
   )
 
 
-## 6.4 Model selection efficiency
-#simualtion---------------------------------------------------------------------
-set.seed(1)
-n = 1000 
-d = 3
-rho = 1
-lambda = 10^seq(-11, -7, length.out = 100)
-lambda_reml = c(10^(-11), 10^(-7))
-
-X = matrix(runif(n*d, 0, 1), nrow = n, ncol = d)
-y = as.vector(sin(2*pi*rowMeans(X)^3) + rnorm(n, 0, 0.1))
-data_n1000d3 = data.frame(X, y)
-colnames(data_n1000d3) = c("X1", "X2", "X3", "y")
-
-# time (lambda selection included: KRLS = GCV, gKRLS = REML, FastKRR = exactCV / fastCV / REML)
-time_data_cv_n1000d3 = microbenchmark::microbenchmark(
-  KRLS_gcv_n1000d3 = krls(X = as.matrix(data_n1000d3[, c("X1", "X2", "X3")]), y = data_n1000d3$y,
-                          whichkernel = "gaussian", sigma = rho, lambda_method = "gcv", approx = "none",
-                          derivative = FALSE, binary = FALSE, vcov = FALSE),
-
-  gKRLS_reml_n1000d3 = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
-                                 xt = gKRLS(sketch_method = "none", bandwidth = rho,
-                                            standardize = "none", remove_instability = FALSE)),
-                           data = data_n1000d3, method = "REML"),
-
-  FastKRR_exactcv_n1000d3= fastkrr(data = data_n1000d3, response = "y", kernel = "gaussian", opt = "exact", 
-                                   rho = rho, lambda = lambda, selection_method = "exactCV", verbose = FALSE),
-  
-  FastKRR_fastcv_n1000d3 = fastkrr(data = data_n1000d3, response = "y", kernel = "gaussian", opt = "exact", 
-                                   rho = rho, lambda = lambda, selection_method = "fastCV", verbose = FALSE),
-  
-  FastKRR_reml_n1000d3 = fastkrr(data = data_n1000d3, response = "y", kernel = "gaussian", opt = "exact", 
-                                 rho = rho, lambda = lambda_reml, selection_method = "REML", verbose = FALSE),
-  
-  times = 100,
-  unit = "ms"
-)
-
-
-save(time_data_cv_n1000d3, file = "output/table4_compare_time_cv.Rdata")
-
-# pred
-compare_cv_pred_n1000d3 = list()
-
-for(rep in 1:100){
-  n = 1000
-  d = 3
-  X = matrix(runif(n*d,0, 1),n,d)
-  y = as.vector(sin(2*pi*rowMeans(X)^3) + rnorm(n, 0, 0.1))
-  
-  data = data.frame(X, y)
-  colnames(data) = c("X1", "X2", "X3", "y")
-
-  n_z = ceiling(1.2 * n)
-  z = matrix(seq(0, 1, len = n_z * d),n_z, d)
-  colnames(z) = c("X1", "X2", "X3")
-  z_frame = as.data.frame(z)
-  y_z = as.vector(sin(2*pi*rowMeans(z)^3))
-
-  KRLS_gcv = krls(X = X, y = y, whichkernel = "gaussian", sigma = rho, lambda_method = "gcv",
-                  approx = "none", derivative = FALSE, binary = FALSE, vcov = FALSE)
-
-  gKRLS_reml = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
-                         xt = gKRLS(sketch_method = "none", bandwidth = rho,
-                                    standardize = "none", remove_instability = FALSE)),
-                   data = data, method = "REML")
-
-  FastKRR_exactCV= fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact",
-                          rho = rho, lambda = lambda, selection_method = "exactCV", verbose = FALSE)
-  
-  FastKRR_fastCV = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact", 
-                          rho = rho, lambda = lambda, selection_method = "fastCV", verbose = FALSE)
-  
-  FastKRR_reml = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "exact",
-                         rho = rho, lambda = lambda_reml, selection_method = "REML", verbose = FALSE)
-  
-  compare_cv_pred_n1000d3$KRLS_gcv[[rep]] =  as.vector(y_z - predict(object = KRLS_gcv, newdata = z)$fit)
-  compare_cv_pred_n1000d3$gKRLS_reml[[rep]] =  as.vector(y_z - predict(object = gKRLS_reml, newdata = z_frame))
-  compare_cv_pred_n1000d3$exactCV[[rep]] =  as.vector(y_z - predict(object = FastKRR_exactCV, newdata = z))
-  compare_cv_pred_n1000d3$fastCV[[rep]] =  as.vector(y_z - predict(object = FastKRR_fastCV, newdata = z))
-  compare_cv_pred_n1000d3$reml[[rep]] =  as.vector(y_z - predict(object = FastKRR_reml, newdata = z))
-  
-}
-
-save(compare_cv_pred_n1000d3, file = "output/table4_compare_cv_prediction (n1000d3).Rdata")
-
-
-df = as.data.frame(time_data_cv_n1000d3)
-
-
-df$expr = factor(
-  df$expr,
-  levels = c("KRLS_gcv_n1000d3", "gKRLS_reml_n1000d3", "FastKRR_exactcv_n1000d3", "FastKRR_fastcv_n1000d3", "FastKRR_reml_n1000d3"),
-  labels = c("KRLS (GCV)", "gKRLS (REML)", "FastKRR (ExactCV)", "FastKRR (FastCV)", "FastKRR (REML)")
-)
-
-summary_cv = df %>%
-  group_by(expr) %>%
-  summarize(
-    Mean     = mean(time) / 1e9,
-    SE       = sd(time) / sqrt(100) / 1e9,
-    Median   = median(time) / 1e9,
-    .groups  = "drop"
-  )
-
-colnames(summary_cv)[colnames(summary_cv) == "expr"] = "Option"
-
-summary_cv_pred_n1000d3 = do.call(rbind, lapply(compare_cv_pred_n1000d3, calc_metric))
-summary_cv_table4 = cbind(summary_cv, summary_cv_pred_n1000d3)
-
-summary_cv_table4 = summary_cv_table4 %>%mutate(
-  `Mean (SE)` = sprintf("%.4f (%.4f)", Mean, SE),
-  
-  Median = sprintf(
-    "%.4f",
-    Median
-  ),
-  
-  `MSE (SE)` = sprintf(
-    "%.4f (%.4f)",
-    MSE_mean,
-    MSE_se
-  ),
-  
-  `MAE (SE)` = sprintf(
-    "%.4f (%.4f)",
-    MAE_mean,
-    MAE_se
-  )
-) %>%
-  select(
-    Option,
-    `Mean (SE)`,
-    Median,
-    `MSE (SE)`,
-    `MAE (SE)`
-  )
-
-rownames(summary_cv_table4) = NULL
 
 
 ## 7.Integration with the tidymodels ecosystem
@@ -1534,6 +1538,7 @@ pred = predict(final_fit, ames_test) %>%
 
 metrics(pred, truth = Sale_Price, estimate = .pred)
 
+# plot 
 location_grid = expand_grid(
   Longitude = seq(min(ames_train$Longitude),
                   max(ames_train$Longitude), length.out = 150),
