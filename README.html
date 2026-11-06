@@ -356,11 +356,11 @@ display: none;
 <h1>Supplementary materials for <em>FastKRR</em></h1>
 <p>This repository provides the supplementary materials for the paper
 <strong>“FastKRR: An R Package for Efficient Kernel Ridge Regression
-with RcppArmadillo”</strong>, including replication scripts and
-precomputed <code>.Rdata</code> files used to generate the tables and
-figures in the submission.</p>
+with RcppArmadillo”</strong>, including replication scripts for the
+tables and figures and the precomputed <code>.Rdata</code> files used to
+generate the tables in the submission.</p>
 <div id="why-precomputed-rdata-files-are-provided" class="section level2">
-<h2>Why precomputed RData files are provided</h2>
+<h2>Why precomputed Rdata files are provided</h2>
 <p>This repository contains the computational resources used in two
 major components of the analysis presented in the paper. The
 <strong>numerical study</strong> includes large-scale simulation
@@ -373,23 +373,23 @@ computation times may not be reproduced identically across machines,
 even when random seeds are fixed. To allow the numerical values reported
 in the manuscript to be reproduced without rerunning all time-consuming
 experiments, we provide the precomputed <code>.Rdata</code> files used
-to generate the reported tables and figures.</p>
+to generate the reported tables.</p>
 <p>The paper also includes a <strong>tidymodels integration
 example</strong> illustrating how FastKRR can be incorporated into a
 modern modeling workflow. This example does not require precomputed
 result files and can be run directly from the provided replication
-scripts.</p>
+script.</p>
 </div>
 <div id="repository-organization" class="section level2">
 <h2>Repository organization</h2>
-<p>The supplementary files are organized according to the stage at which
-each analysis was introduced or updated.</p>
 <ul>
-<li>Files stored directly in <code>supplement_materials/</code>
-correspond to analyses included in the submission.</li>
+<li><code>scripts/</code>: Replication code for Sections 5–7 of the
+manuscript.</li>
+<li><code>supplement_materials/</code>: Precomputed <code>.Rdata</code>
+files used to generate Tables 2–5 of the manuscript.</li>
+<li><code>response/</code>: Code and precomputed results for Table S1 in
+the response letter for the first revision.</li>
 </ul>
-<p>The manuscript may use files. Analyses retained without modification
-continue to use the original result files.</p>
 </div>
 <div id="main-contents" class="section level2">
 <h2>Main contents</h2>
@@ -397,29 +397,29 @@ continue to use the original result files.</p>
 <li><p><code>scripts/full_replication_code.R</code>: Full pipeline to
 reproduce,</p>
 <ul>
-<li>all simulation results (runtime: ~34–37 hours),</li>
+<li>all simulation results (runtime: approximately 40 hours, estimated
+from the recorded benchmark times; the actual runtime depends on
+hardware and parallelization settings),</li>
 <li>experiments with larger sample sizes and dimensions,</li>
 <li>computation-time and predictive-accuracy evaluations,</li>
 <li>the tidymodels workflow example,</li>
-<li>benchmarking and comparison results.<br />
-</li>
-<li>running this script will generate new <code>.Rdata</code> files in
-<strong><code>scripts/output/</code></strong>.</li>
-</ul></li>
+<li>benchmarking and comparison results.</li>
+</ul>
+<p>Running this script will generate new <code>.Rdata</code> files in
+<strong><code>scripts/output/</code></strong>.</p></li>
 <li><p><code>supplement_materials/*.Rdata</code>: Precomputed results
-used directly in the paper for tables and figures.</p></li>
-<li><p><code>reponse/</code>: Simulation code and precomputed results
-for <strong>Table S1</strong> in the response letter to the editor and
-reviewers, comparing <code>KRMM</code>’s REML-based tuning with
+used directly in the paper for Tables 2–5.</p></li>
+<li><p><code>response/</code>: Simulation code and precomputed results
+for <strong>Table S1</strong> in the response letter for the first
+revision, comparing <code>KRMM</code>’s REML-based tuning with
 <code>FastKRR</code>’s <code>&quot;fastCV&quot;</code> and <code>&quot;REML&quot;</code>
 options.</p></li>
-<li><p>Additional helper scripts and documentation.</p></li>
 </ul>
 </div>
 <div id="reproducibility-notes" class="section level2">
 <h2>Reproducibility notes</h2>
 <p>The precomputed result files reproduce the numerical values used in
-the corresponding version of the manuscript.</p>
+the second revision of the manuscript.</p>
 <p>Runtime values obtained by rerunning the experiments may vary across
 computing environments. Consequently, exact timing values are not
 expected to be identical across machines, although the main comparative

@@ -355,13 +355,13 @@ display: none;
 <div id="result-files-for-fastkrr" class="section level1">
 <h1>Result files for <em>FastKRR</em></h1>
 <p>This directory contains the precomputed <code>.Rdata</code> files
-used for the numerical experiments added or updated in the submission
-<strong>“FastKRR: An R Package for Efficient Kernel Ridge Regression
-with RcppArmadillo.”</strong></p>
+used for the numerical experiments in the submission <strong>“FastKRR:
+An R Package for Efficient Kernel Ridge Regression with
+RcppArmadillo.”</strong></p>
 <p>The files were generated on the reference computing system used
-during the submission and are provided so that the tables and figures
-can be reproduced without rerunning the full set of computationally
-intensive experiments.</p>
+during the submission and are provided so that the tables can be
+reproduced without rerunning the full set of computationally intensive
+experiments.</p>
 <div id="why-precomputed-rdata-files-are-provided" class="section level2">
 <h2>Why precomputed Rdata files are provided</h2>
 <p>The numerical study includes large-scale simulation experiments,
@@ -374,8 +374,7 @@ and scheduling. Consequently, exact computation times may differ when
 the experiments are rerun on another machine, even when the random seeds
 and model settings are fixed.</p>
 <p>The precomputed files in this directory contain the numerical results
-used to generate the corresponding tables and figures in the revised
-manuscript.</p>
+used to generate the corresponding tables in the manuscript.</p>
 </div>
 </div>
 <div id="file-organization" class="section level1">
@@ -394,7 +393,7 @@ manuscript.</p>
 <ul>
 <li><p><code>table3_compare_time_opt(all).Rdata</code></p>
 <p>Contains computation-time results for the exact, Nyström, pivoted
-Cholesky, and random Fourier feature implementations across the revised
+Cholesky, and random Fourier feature implementations across the
 simulation settings.</p></li>
 <li><p><code>table3_compare_prediction (n5000d3).Rdata</code></p></li>
 <li><p><code>table3_compare_prediction (n5000d5).Rdata</code></p></li>
@@ -403,19 +402,32 @@ simulation settings.</p></li>
 <li><p><code>table3_compare_prediction (n10000d5).Rdata</code></p></li>
 <li><p><code>table3_compare_prediction (n10000d7).Rdata</code></p>
 <p>Contain predictive-accuracy results for <span class="math inline">\(n
-\in \{5{,}000,10{,}000\}\)</span> and <span class="math inline">\(d \in
-\{3,5,7\}\)</span>.</p></li>
+= 5000, 10000\)</span> and <span class="math inline">\(d = 3, 5,
+7\)</span>.</p></li>
 </ul>
 </div>
-<div id="table-4-approximation-method-comparison" class="section level3">
-<h3>Table 4: approximation-method comparison</h3>
+<div id="table-4-hyperparameter-selection-comparison" class="section level3">
+<h3>Table 4: hyperparameter-selection comparison</h3>
 <ul>
-<li><p><code>table4_compare_time_pkg(n10000d3_m111).Rdata</code></p></li>
-<li><p><code>table4_compare_time_pkg(n10000d3_m208).Rdata</code></p>
+<li><p><code>table4_compare_time_cv.Rdata</code></p>
+<p>Contains computation-time results, including regularization-parameter
+selection, for <code>KRLS</code> (GCV), <code>gKRLS</code> (REML), and
+<code>FastKRR</code> with ExactCV, FastCV, and REML. All methods use
+exact kernel computation (<span class="math inline">\(n=1000\)</span>,
+<span class="math inline">\(d=3\)</span>, <span class="math inline">\(\rho=1\)</span>).</p></li>
+<li><p><code>table4_compare_cv_prediction (n1000d3).Rdata</code></p>
+<p>Contains the corresponding predictive-accuracy results.</p></li>
+</ul>
+</div>
+<div id="table-5-approximation-method-comparison" class="section level3">
+<h3>Table 5: approximation-method comparison</h3>
+<ul>
+<li><p><code>table5_compare_time_pkg(n10000d3_m111).Rdata</code></p></li>
+<li><p><code>table5_compare_time_pkg(n10000d3_m208).Rdata</code></p>
 <p>Contain computation-time results for the package-level approximation
 comparison at approximation ranks <span class="math inline">\(m=111\)</span> and <span class="math inline">\(m=208\)</span>.</p></li>
-<li><p><code>table4_compare_prediction(n10000d3_m111).Rdata</code></p></li>
-<li><p><code>table4_compare_prediction(n10000d3_m208).Rdata</code></p>
+<li><p><code>table5_compare_prediction(n10000d3_m111).Rdata</code></p></li>
+<li><p><code>table5_compare_prediction(n10000d3_m208).Rdata</code></p>
 <p>Contain predictive-accuracy results for the same approximation-rank
 settings.</p>
 <p>These analyses compare the sketched implementation in
@@ -424,33 +436,15 @@ the Nyström, pivoted Cholesky, and random Fourier feature approximations
 in <code>FastKRR</code>.</p></li>
 </ul>
 </div>
-<div id="table-5-hyperparameter-selection-comparison" class="section level3">
-<h3>Table 5: hyperparameter-selection comparison</h3>
-<ul>
-<li><p><code>table5_compare_cv.Rdata</code></p>
-<p>Contains computation-time results for ExactCV, FastCV, and REML
-within <code>FastKRR</code>.</p></li>
-<li><p><code>table5_compare_cv_prediction (n2000d3).Rdata</code></p>
-<p>Contains the corresponding predictive-accuracy results.</p></li>
-</ul>
-</div>
-<div id="additional-figure-results" class="section level3">
-<h3>Additional figure results</h3>
-<p>Contains precomputed results used for a figure or graphical summary
-in the revised manuscript.</p>
-</div>
 <div id="reproducibility-notes" class="section level2">
 <h2>Reproducibility notes</h2>
 <p>The files in this directory reproduce the numerical values reported
-in the corresponding tables and figures.</p>
+in the corresponding tables.</p>
 <p>Exact runtime values may vary across machines because of differences
 in hardware, operating systems, parallel execution, and system load.
 Predictive results may also exhibit minor floating-point or stochastic
 variation when regenerated, but the main comparative patterns should
 remain qualitatively similar.</p>
-<p>Files corresponding to analyses retained unchanged from the original
-submission remain in the parent <code>supplement_materials/</code>
-directory.</p>
 </div>
 </div>
 

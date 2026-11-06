@@ -360,47 +360,57 @@ replication pipeline for all analyses reported in <strong>Sections
 5–7</strong> of the manuscript.</p>
 <p>Because the full simulations and benchmarking procedures are
 computationally intensive, running the script may require approximately
-<strong>40–43 hours</strong> depending on hardware specifications and
-parallelization settings.</p>
+<strong>40 hours</strong> (estimated from the recorded benchmark times;
+the actual runtime depends on hardware and parallelization
+settings).</p>
 </div>
-<div id="running-the-replication-scripts" class="section level1">
-<h1>Running the replication scripts</h1>
+<div id="running-the-replication-script" class="section level1">
+<h1>Running the replication script</h1>
 <ol style="list-style-type: decimal">
-<li>Install the necessary packages:</li>
+<li>Install the necessary packages (<code>FastKRR</code>
+<strong>v0.2.2</strong> is available on <a href="https://cran.r-project.org/package=FastKRR">CRAN</a>):</li>
 </ol>
 <pre class="r"><code>install.packages(c(&quot;dplyr&quot;, &quot;tidyr&quot;, &quot;ggplot2&quot;, &quot;tidymodels&quot;, &quot;tibble&quot;,
                    &quot;microbenchmark&quot;, &quot;knitr&quot;, &quot;kableExtra&quot;, &quot;mgcv&quot;,
                    &quot;xtable&quot;, &quot;KRLS&quot;, &quot;gKRLS&quot;, &quot;kernlab&quot;, &quot;FastKRR&quot;))</code></pre>
-<p>The Table 4 experiment calls <code>krls()</code> with
-<code>lambda_method = &quot;gcv&quot;</code> and <code>approx = &quot;none&quot;</code>, so
-a version of <code>KRLS</code> that supports these arguments is
-required. The <code>gKRLS</code> model is fitted using
-<code>mgcv::gam()</code> with <code>method = &quot;REML&quot;</code>,
+<p>The script calls <code>krls()</code> with <code>lambda_method</code>,
+<code>approx</code>, and <code>nystrom_m</code>, so a version of
+<code>KRLS</code> that supports these arguments is required (checked
+with <code>KRLS</code> 1.7-1).</p>
+<p>The <code>gKRLS</code> models are fitted using
+<code>mgcv::gam()</code>, with settings that differ by experiment
+(checked with <code>gKRLS</code> 1.0.4):</p>
+<ul>
+<li>Table 2: <code>sketch_method = &quot;none&quot;</code>,
+<code>bandwidth = rho</code>, <code>standardize = &quot;none&quot;</code>, and
+fixed <code>sp = lambda</code>.</li>
+<li>Table 4: <code>method = &quot;REML&quot;</code>,
 <code>sketch_method = &quot;none&quot;</code>, <code>bandwidth = rho</code>,
 <code>standardize = &quot;none&quot;</code>, and
-<code>remove_instability = FALSE</code>, so a version of
-<code>gKRLS</code> that supports these options is also required.</p>
+<code>remove_instability = FALSE</code>.</li>
+<li>Table 5: <code>sketch_method = &quot;subsampling&quot;</code> with
+<code>sketch_size_raw = m</code>, using the default <code>gKRLS</code>
+bandwidth and standardization.</li>
+</ul>
 <ol start="2" style="list-style-type: decimal">
-<li><p>The package FastKRR <strong>v0.2.2</strong> is available on CRAN:
-<a href="https://cran.r-project.org/package=FastKRR" class="uri">https://cran.r-project.org/package=FastKRR</a>
-<code>install.packages(&quot;FastKRR&quot;)</code></p></li>
-<li><p>Load the package: <code>library(FastKRR)</code></p></li>
-<li><p>To reproduce the full results, run the replication scripts from
-the <code>scripts/</code> directory</p></li>
+<li>Run the script with <code>scripts/</code> as the working
+directory:</li>
 </ol>
+<pre class="r"><code>setwd(&quot;scripts&quot;)  # from the repository root
+source(&quot;full_replication_code.R&quot;)</code></pre>
 </div>
 <div id="note" class="section level1">
 <h1>Note</h1>
-<p>Running <code>full_replication_code.R</code> reproduces the results
+<p>Running <code>full_replication_code.R</code> reruns the analyses
 reported in the manuscript using the same analysis pipeline, and new
 <code>.Rdata</code> files will be created in the
 <code>scripts/output/</code> folder. The timing values in the
-replication <code>.Rdata</code> files may differ slightly from those in
-the manuscript and can vary across systems due to hardware, OS
-scheduling, or parallelization. However, the substantive results and
-overall patterns remain consistent, and the performance comparisons and
-conclusions are unaffected. The exact <code>.Rdata</code> files used in
-the manuscript (not newly generated ones) are available at: <a href="https://github.com/Gyeong-min-Kim/FastKRR-supplementary" class="uri">https://github.com/Gyeong-min-Kim/FastKRR-supplementary</a></p>
+replication <code>.Rdata</code> files may differ from those in the
+manuscript and can vary across systems due to hardware, OS scheduling,
+or parallelization. However, the main comparative patterns and
+conclusions are expected to remain qualitatively similar. The exact
+<code>.Rdata</code> files used in the manuscript (not newly generated
+ones) are available in <code>../supplement_materials/</code>.</p>
 </div>
 
 

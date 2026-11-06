@@ -10,25 +10,24 @@ Table S1 was added specifically to address a comment from Reviewer
 (1-review-5.txt), who asked us to compare the REML-based tuning used by the
 `KRMM` package with `FastKRR`'s tuning options (both the CVST-based
 `"fastCV"` procedure and `FastKRR`'s own `"REML"` option), using both the
-exact method and the low-rank approximations. This comparison is reported
-only in the response letter and is not part of the numbered tables in the
-revised manuscript.
+exact method and the low-rank approximations.
 
 ## Files
 
 - `tables1.R`
 
   Self-contained script that reproduces Table S1. It:
-  1. Generates a single training set (\(n = 1{,}000\), \(d = 3\)) and a held-out
-     evaluation set (\(n_z = 1{,}200\)) from the same data-generating process used
-     in Section 6 of the manuscript.
+  1. Generates a single training set ($n = 1000$, $d = 3$) for the timing
+     benchmark, using the same data-generating process as Section 6 of the
+     manuscript.
   2. Benchmarks computation time (`microbenchmark`, 100 replications) for
      `KRMM::Kernel_Ridge_MM` and for `fastkrr()` under five configurations:
      exact method with `"REML"`, exact method with `"fastCV"`, and the
      Nyström, pivoted Cholesky, and RFF approximations with `"fastCV"`.
-  3. Repeats data generation, model fitting, and out-of-sample prediction
-     over 100 replications to estimate predictive accuracy (MSE and MAE, with
-     standard errors) for the same five configurations plus `KRMM`.
+  3. Repeats data generation, model fitting, and out-of-sample prediction on a
+     new evaluation set ($n_z = 1200$) over 100 replications to estimate
+     predictive accuracy (MSE and MAE, with standard errors) for the same five
+     configurations plus `KRMM`.
   4. Combines the timing and prediction summaries into a single formatted
      table (`make_tbl()`, printed via `xtable`), corresponding to Table S1 in
      the response letter.
@@ -49,26 +48,42 @@ revised manuscript.
 1. Install the required packages:
 
 ```r
-install.packages(c("dplyr", "xtable", "ggplot2", "microbenchmark", "KRMM"))
+install.packages(c("dplyr", "tibble", "xtable", "ggplot2", "microbenchmark"))
 ```
 
-2. Install `FastKRR` (CRAN v0.2.2 or later):
+2. Install `KRMM` from the CRAN archive (it was archived on 2026-10-12):
+
+```r
+install.packages(
+  "https://cran.r-project.org/src/contrib/Archive/KRMM/KRMM_1.0.tar.gz",
+  repos = NULL, type = "source"
+)
+```
+
+3. Install `FastKRR`:
 
 ```r
 install.packages("FastKRR")
 ```
 
-3. Run the script from this directory:
+   The precomputed results were generated before the release of `FastKRR`
+   v0.2.2. Version 0.2.2 changed the default of `n_threads` to 1, so timing
+   results obtained with the current CRAN version may differ.
+
+4. Run the script with `response/` as the working directory:
 
 ```r
+setwd("response")  # from the repository root
 source("tables1.R")
 ```
 
 Running the full script (100 timing replications plus 100 prediction
-replications) takes a few minutes. It will (re)create the `output/` folder and
-overwrite `output/reml_vs_cvst_exact_time.Rdata` and
+replications) takes approximately 1.5 hours, estimated from the recorded
+benchmark times. It will (re)create the `output/` folder and overwrite
+`output/reml_vs_cvst_exact_time.Rdata` and
 `output/reml_vs_cvst_exact_pred.Rdata` with newly generated results, then print
-the final table (`tbl_exact`).
+the final table in LaTeX format. Copy these files first to keep the submitted
+results.
 
 ## Reproducibility notes
 

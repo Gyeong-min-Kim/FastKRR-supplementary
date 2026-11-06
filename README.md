@@ -23,7 +23,7 @@ without rerunning all time-consuming experiments, we provide the precomputed
 The paper also includes a **tidymodels integration example** illustrating how
 FastKRR can be incorporated into a modern modeling workflow. This example does
 not require precomputed result files and can be run directly from the provided
-replication scripts.
+replication script.
 
 
 ## Repository organization
@@ -43,8 +43,9 @@ replication scripts.
   - experiments with larger sample sizes and dimensions,
   - computation-time and predictive-accuracy evaluations,
   - the tidymodels workflow example,
-  - benchmarking and comparison results.  
-  - running this script will generate new `.Rdata` files in **`scripts/output/`**.
+  - benchmarking and comparison results.
+
+  Running this script will generate new `.Rdata` files in **`scripts/output/`**.
 
 - `supplement_materials/*.Rdata`: Precomputed results used directly in the paper for Tables 2–5.
 
@@ -55,7 +56,7 @@ replication scripts.
 ## Reproducibility notes
 
 The precomputed result files reproduce the numerical values used in the
-corresponding version of the manuscript.
+second revision of the manuscript.
 
 Runtime values obtained by rerunning the experiments may vary across computing
 environments. Consequently, exact timing values are not expected to be

@@ -1,7 +1,7 @@
 # Result files for *FastKRR*
 
 This directory contains the precomputed `.Rdata` files used for the numerical
-experiments added or updated in the submission
+experiments in the submission
 **“FastKRR: An R Package for Efficient Kernel Ridge Regression with RcppArmadillo.”**
 
 The files were generated on the reference computing system used during the
@@ -41,8 +41,7 @@ generate the corresponding tables in the manuscript.
 - `table3_compare_time_opt(all).Rdata`
 
   Contains computation-time results for the exact, Nyström, pivoted Cholesky,
-  and random Fourier feature implementations across the revised simulation
-  settings.
+  and random Fourier feature implementations across the simulation settings.
 
 - `table3_compare_prediction (n5000d3).Rdata`
 - `table3_compare_prediction (n5000d5).Rdata`
@@ -52,7 +51,7 @@ generate the corresponding tables in the manuscript.
 - `table3_compare_prediction (n10000d7).Rdata`
 
   Contain predictive-accuracy results for
-  \(n \in \{5{,}000,10{,}000\}\) and \(d \in \{3,5,7\}\).
+  $n = 5000, 10000$ and $d = 3, 5, 7$.
 
 ### Table 4: hyperparameter-selection comparison
 
@@ -73,7 +72,7 @@ generate the corresponding tables in the manuscript.
 - `table5_compare_time_pkg(n10000d3_m208).Rdata`
 
   Contain computation-time results for the package-level approximation
-  comparison at approximation ranks \(m=111\) and \(m=208\).
+  comparison at approximation ranks $m=111$ and $m=208$.
 
 - `table5_compare_prediction(n10000d3_m111).Rdata`
 - `table5_compare_prediction(n10000d3_m208).Rdata`

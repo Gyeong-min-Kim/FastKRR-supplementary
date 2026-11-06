@@ -355,18 +355,17 @@ display: none;
 <div id="response-letter-code-for-fastkrr" class="section level1">
 <h1>Response-letter code for <em>FastKRR</em></h1>
 <p>This directory contains the simulation code and precomputed results
-used to produce <strong>Table S1</strong> in our response letter to the
-editor and reviewers for <strong>“FastKRR: An R Package for Efficient
-Kernel Ridge Regression with RcppArmadillo”</strong> (Article ID:
-2025-144).</p>
+used to produce <strong>Table S1</strong> in our response letter for the
+<strong>first revision</strong> of <strong>“FastKRR: An R Package for
+Efficient Kernel Ridge Regression with RcppArmadillo”</strong> (Article
+ID: 2025-144). These materials are kept as submitted at that stage.
+Table S1 is not part of the current manuscript.</p>
 <p>Table S1 was added specifically to address a comment from Reviewer
 (1-review-5.txt), who asked us to compare the REML-based tuning used by
 the <code>KRMM</code> package with <code>FastKRR</code>’s tuning options
 (both the CVST-based <code>&quot;fastCV&quot;</code> procedure and
 <code>FastKRR</code>’s own <code>&quot;REML&quot;</code> option), using both the
-exact method and the low-rank approximations. This comparison is
-reported only in the response letter and is not part of the numbered
-tables in the revised manuscript.</p>
+exact method and the low-rank approximations.</p>
 <div id="files" class="section level2">
 <h2>Files</h2>
 <ul>
@@ -374,10 +373,9 @@ tables in the revised manuscript.</p>
 <p>Self-contained script that reproduces Table S1. It:</p>
 <ol style="list-style-type: decimal">
 <li>Generates a single training set (<span class="math inline">\(n =
-1{,}000\)</span>, <span class="math inline">\(d = 3\)</span>) and a
-held-out evaluation set (<span class="math inline">\(n_z =
-1{,}200\)</span>) from the same data-generating process used in Section
-6 of the manuscript.</li>
+1000\)</span>, <span class="math inline">\(d = 3\)</span>) for the
+timing benchmark, using the same data-generating process as Section 6 of
+the manuscript.</li>
 <li>Benchmarks computation time (<code>microbenchmark</code>, 100
 replications) for <code>KRMM::Kernel_Ridge_MM</code> and for
 <code>fastkrr()</code> under five configurations: exact method with
@@ -385,9 +383,10 @@ replications) for <code>KRMM::Kernel_Ridge_MM</code> and for
 Nyström, pivoted Cholesky, and RFF approximations with
 <code>&quot;fastCV&quot;</code>.</li>
 <li>Repeats data generation, model fitting, and out-of-sample prediction
-over 100 replications to estimate predictive accuracy (MSE and MAE, with
-standard errors) for the same five configurations plus
-<code>KRMM</code>.</li>
+on a new evaluation set (<span class="math inline">\(n_z =
+1200\)</span>) over 100 replications to estimate predictive accuracy
+(MSE and MAE, with standard errors) for the same five configurations
+plus <code>KRMM</code>.</li>
 <li>Combines the timing and prediction summaries into a single formatted
 table (<code>make_tbl()</code>, printed via <code>xtable</code>),
 corresponding to Table S1 in the response letter.</li>
@@ -407,21 +406,36 @@ S1.</p></li>
 <ol style="list-style-type: decimal">
 <li>Install the required packages:</li>
 </ol>
-<pre class="r"><code>install.packages(c(&quot;dplyr&quot;, &quot;xtable&quot;, &quot;ggplot2&quot;, &quot;microbenchmark&quot;, &quot;KRMM&quot;))</code></pre>
+<pre class="r"><code>install.packages(c(&quot;dplyr&quot;, &quot;tibble&quot;, &quot;xtable&quot;, &quot;ggplot2&quot;, &quot;microbenchmark&quot;))</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Install <code>FastKRR</code> (CRAN v0.2.2 or later):</li>
+<li>Install <code>KRMM</code> from the CRAN archive (it was archived on
+2026-10-12):</li>
+</ol>
+<pre class="r"><code>install.packages(
+  &quot;https://cran.r-project.org/src/contrib/Archive/KRMM/KRMM_1.0.tar.gz&quot;,
+  repos = NULL, type = &quot;source&quot;
+)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Install <code>FastKRR</code>:</li>
 </ol>
 <pre class="r"><code>install.packages(&quot;FastKRR&quot;)</code></pre>
-<ol start="3" style="list-style-type: decimal">
-<li>Run the script from this directory:</li>
+<p>The precomputed results were generated before the release of
+<code>FastKRR</code> v0.2.2. Version 0.2.2 changed the default of
+<code>n_threads</code> to 1, so timing results obtained with the current
+CRAN version may differ.</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Run the script with <code>response/</code> as the working
+directory:</li>
 </ol>
-<pre class="r"><code>source(&quot;tables1.R&quot;)</code></pre>
+<pre class="r"><code>setwd(&quot;response&quot;)  # from the repository root
+source(&quot;tables1.R&quot;)</code></pre>
 <p>Running the full script (100 timing replications plus 100 prediction
-replications) takes a few minutes. It will (re)create the
-<code>output/</code> folder and overwrite
-<code>output/reml_vs_cvst_exact_time.Rdata</code> and
+replications) takes approximately 1.5 hours, estimated from the recorded
+benchmark times. It will (re)create the <code>output/</code> folder and
+overwrite <code>output/reml_vs_cvst_exact_time.Rdata</code> and
 <code>output/reml_vs_cvst_exact_pred.Rdata</code> with newly generated
-results, then print the final table (<code>tbl_exact</code>).</p>
+results, then print the final table in LaTeX format. Copy these files
+first to keep the submitted results.</p>
 </div>
 <div id="reproducibility-notes" class="section level2">
 <h2>Reproducibility notes</h2>
