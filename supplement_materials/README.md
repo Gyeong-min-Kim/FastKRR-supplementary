@@ -5,9 +5,8 @@ experiments added or updated in the submission
 **“FastKRR: An R Package for Efficient Kernel Ridge Regression with RcppArmadillo.”**
 
 The files were generated on the reference computing system used during the
-submission and are provided so that the tables and figures can be
-reproduced without rerunning the full set of computationally intensive
-experiments.
+submission and are provided so that the tables can be reproduced without
+rerunning the full set of computationally intensive experiments.
 
 
 ## Why precomputed Rdata files are provided
@@ -24,7 +23,7 @@ experiments are rerun on another machine, even when the random seeds and model
 settings are fixed.
 
 The precomputed files in this directory contain the numerical results used to
-generate the corresponding tables and figures in the revised manuscript.
+generate the corresponding tables in the manuscript.
 
 
 # File organization
@@ -86,22 +85,14 @@ generate the corresponding tables and figures in the revised manuscript.
   implementation in `KRLS`, and the Nyström, pivoted Cholesky, and random
   Fourier feature approximations in `FastKRR`.
 
-### Additional figure results
-
-  Contains precomputed results used for a figure or graphical summary in the
-  revised manuscript.
-
 
 ## Reproducibility notes
 
 The files in this directory reproduce the numerical values reported in the
-corresponding tables and figures.
+corresponding tables.
 
 Exact runtime values may vary across machines because of differences in
 hardware, operating systems, parallel execution, and system load. Predictive
 results may also exhibit minor floating-point or stochastic variation when
 regenerated, but the main comparative patterns should remain qualitatively
 similar.
-
-Files corresponding to analyses retained unchanged from the original
-submission remain in the parent `supplement_materials/` directory.

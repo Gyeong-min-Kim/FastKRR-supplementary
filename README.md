@@ -2,8 +2,8 @@
 
 This repository provides the supplementary materials for the paper
 **“FastKRR: An R Package for Efficient Kernel Ridge Regression with RcppArmadillo”**,
-including replication scripts and precomputed `.Rdata` files used
-to generate the tables and figures in the submission.
+including replication scripts for the tables and figures and the precomputed
+`.Rdata` files used to generate the tables in the submission.
 
 ## Why precomputed Rdata files are provided
 
@@ -18,7 +18,7 @@ scheduling, exact computation times may not be reproduced identically across
 machines, even when random seeds are fixed.
 To allow the numerical values reported in the manuscript to be reproduced
 without rerunning all time-consuming experiments, we provide the precomputed
-`.Rdata` files used to generate the reported tables and figures.
+`.Rdata` files used to generate the reported tables.
 
 The paper also includes a **tidymodels integration example** illustrating how
 FastKRR can be incorporated into a modern modeling workflow. This example does
@@ -28,32 +28,29 @@ replication scripts.
 
 ## Repository organization
 
-The supplementary files are organized according to the stage at which each
-analysis was introduced or updated.
-
-- Files stored directly in `supplement_materials/` correspond to analyses
-  included in the submission.
-
-The manuscript may use files. Analyses retained
-without modification continue to use the original result files.
+- `scripts/`: Replication code for Sections 5–7 of the manuscript.
+- `supplement_materials/`: Precomputed `.Rdata` files used to generate
+  Tables 2–5 of the manuscript.
+- `response/`: Code and precomputed results for Table S1 in the response letter
+  for the first revision.
 
 ## Main contents
 
 - `scripts/full_replication_code.R`: Full pipeline to reproduce,
-  - all simulation results (runtime: ~34–37 hours),
+  - all simulation results (runtime: approximately 40 hours, estimated from the
+    recorded benchmark times; the actual runtime depends on hardware and
+    parallelization settings),
   - experiments with larger sample sizes and dimensions,
   - computation-time and predictive-accuracy evaluations,
   - the tidymodels workflow example,
   - benchmarking and comparison results.  
   - running this script will generate new `.Rdata` files in **`scripts/output/`**.
 
-- `supplement_materials/*.Rdata`: Precomputed results used directly in the paper for tables and figures.
+- `supplement_materials/*.Rdata`: Precomputed results used directly in the paper for Tables 2–5.
 
-- `reponse/`: Simulation code and precomputed results for **Table S1** in the
-  response letter to the editor and reviewers, comparing `KRMM`'s REML-based
+- `response/`: Simulation code and precomputed results for **Table S1** in the
+  response letter for the first revision, comparing `KRMM`'s REML-based
   tuning with `FastKRR`'s `"fastCV"` and `"REML"` options.
-
-- Additional helper scripts and documentation.
 
 ## Reproducibility notes
 

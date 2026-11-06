@@ -5,7 +5,7 @@ the complete replication pipeline for all analyses reported in **Sections 5–7*
 of the manuscript.
 
 Because the full simulations and benchmarking procedures are computationally intensive, 
-running the script may require approximately **40–43 hours** depending on hardware specifications and parallelization settings.
+running the script may require approximately **40 hours** (estimated from the recorded benchmark times; the actual runtime depends on hardware and parallelization settings).
 
 # Running the replication scripts
 

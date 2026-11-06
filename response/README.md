@@ -1,9 +1,10 @@
 # Response-letter code for *FastKRR*
 
 This directory contains the simulation code and precomputed results used to
-produce **Table S1** in our response letter to the editor and reviewers for
+produce **Table S1** in our response letter for the **first revision** of
 **"FastKRR: An R Package for Efficient Kernel Ridge Regression with
-RcppArmadillo"** (Article ID: 2025-144).
+RcppArmadillo"** (Article ID: 2025-144). These materials are kept as submitted
+at that stage. Table S1 is not part of the current manuscript.
 
 Table S1 was added specifically to address a comment from Reviewer
 (1-review-5.txt), who asked us to compare the REML-based tuning used by the
