@@ -1220,13 +1220,13 @@ for (rep in 1:100) {
   y_z = as.vector(sin(2*pi*rowMeans(z)^3))
   z_frame = as.data.frame(z)
   
-  # ---- KRLS (lambda 고정) ----
+  # ---- KRLS (lambda fix) ----
   model_krls = krls(X = X, y = y, whichkernel = "gaussian",
                     sigma = rho, derivative = FALSE, lambda = lambda_krls_n10000d3,
                     binary = FALSE, vcov = FALSE, approx = "nystrom", nystrom_m = m)
   pred_krls = predict(object = model_krls, newdata = as.matrix(z))$fit
   
-  # ---- gKRLS (sp 고정) ----
+  # ---- gKRLS (sp fix) ----
   model_gkrls = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
                           xt = gKRLS(
                             sketch_method = "subsampling",
@@ -1240,7 +1240,7 @@ for (rep in 1:100) {
                     sp = sp_gkrls_n10000d3)
   pred_gkrls = predict(object = model_gkrls, newdata = z_frame)
   
-  # ---- FastKRR (lambda 고정, fastcv 없이) ----
+  # ---- FastKRR (lambda fix, fastcv no) ----
   FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom",
                             n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = m)
   
@@ -1250,7 +1250,7 @@ for (rep in 1:100) {
   FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff",
                         n_threads = 4, rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = m)
   
-  # ---- 저장 ----
+  # ---- save ----
   compare_packages_approx_n10000d3$KRLS[[rep]]           = as.vector(y_z - pred_krls)
   compare_packages_approx_n10000d3$gKRLS[[rep]]           = as.vector(y_z - pred_gkrls)
   compare_packages_approx_n10000d3$FastKRR_nystrom[[rep]] = as.vector(y_z - predict(object = FastKRR_nystrom, newdata = as.matrix(z_frame)))
