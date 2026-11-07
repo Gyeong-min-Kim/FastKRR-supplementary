@@ -52,6 +52,8 @@ replication script.
 - `response/`: Simulation code and precomputed results for **Table S1** in the
   response letter for the first revision, comparing `KRMM`'s REML-based
   tuning with `FastKRR`'s `"fastCV"` and `"REML"` options.
+  
+  KRMM is no longer available from the active CRAN repository. Instructionz for installing the archived source package are provided in response/README.md.
 
 ## Reproducibility notes
 

@@ -121,23 +121,6 @@ fit_grid = fastkrr(data = data, response = "y", lambda = 10^seq(-8, -2, length.o
                    selection_method = "fastCV")
 
 ## 6. Numerical study
-#plot-funcion-------------------------------------------------------------------
-time_plot = function(df, rm = 0, size = 15){
-  df = as.data.frame(df)
-  idx = df$expr %in% rm; df = df[!idx, ]
-  stats = df %>% dplyr::group_by(expr) %>%
-    dplyr::summarize(Q1 = stats::quantile(time/1e6, 0.25),
-                     Q3 = stats::quantile(time/1e6, 0.75),
-                     IQR = Q3 - Q1, .groups="drop")
-  ymin = min(stats$Q1 - 1.5*stats$IQR); ymax = max(stats$Q3 + 1.5*stats$IQR)
-  ggplot2::ggplot(df, ggplot2::aes(x = expr, y = time/1e6)) +
-    ggplot2::geom_boxplot(outlier.shape = NA) +
-    ggplot2::coord_cartesian(ylim = c(ymin, ymax)) +
-    ggplot2::labs(x = NULL, y = "Time (milliseconds)") +
-    ggplot2::theme_minimal() +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(size = size))
-}
-
 #summary-functions--------------------------------------------------------------
 summarize_package_comparison = function(
     benchmark_result,
@@ -280,14 +263,15 @@ calc_metric = function(pkg_error_list) {
 set.seed(1)
 n = 1000
 d = 3
+
 X = matrix(runif(n*d,0, 1),n,d)
+y = as.vector(sin(2*pi*rowMeans(X)^3) + rnorm(n, 0, 0.1))
+
 data = data.frame(X, y)
 
 X1 = X[, 1]
 X2 = X[, 2]
 X3 = X[, 3]
-
-y = as.vector(sin(2*pi*rowMeans(X)^3) + rnorm(n, 0, 0.1))
 
 # hyper parameter
 lambda  = 1e-4
@@ -299,7 +283,7 @@ rho = 1
 krr = function(X, y, lambda, rho){
   n_row = nrow(X)
   
-  K = kernelMatrix(rbfdot(sigma=0.5), X)
+  K = kernelMatrix(rbfdot(sigma=rho), X)
   
   alpha_hat = solve(K + lambda * diag(n_row)) %*% y
   
@@ -886,27 +870,27 @@ summary_metric_n10000d7 = do.call(rbind, lapply(compare_packages_exact_n10000d7,
 
 metric_tbl = bind_rows(
   summary_metric_n5000d3 %>%
-    rownames_to_column("method_short") %>%
+    tibble::rownames_to_column("method_short") %>%
     mutate(n = 5000, d = 3),
   
   summary_metric_n5000d5 %>%
-    rownames_to_column("method_short") %>%
+    tibble::rownames_to_column("method_short") %>%
     mutate(n = 5000, d = 5),
   
   summary_metric_n5000d7 %>%
-    rownames_to_column("method_short") %>%
+    tibble::rownames_to_column("method_short") %>%
     mutate(n = 5000, d = 7),
   
   summary_metric_n10000d3 %>%
-    rownames_to_column("method_short") %>%
+    tibble::rownames_to_column("method_short") %>%
     mutate(n = 10000, d = 3),
   
   summary_metric_n10000d5 %>%
-    rownames_to_column("method_short") %>%
+    tibble::rownames_to_column("method_short") %>%
     mutate(n = 10000, d = 5),
   
   summary_metric_n10000d7 %>%
-    rownames_to_column("method_short") %>%
+    tibble::rownames_to_column("method_short") %>%
     mutate(n = 10000, d = 7)
 ) %>%
   mutate(
@@ -1130,7 +1114,7 @@ rownames(summary_cv_table4) = NULL
 
 
 ## 6.4 Efficiency of the approximation methods in FastKRR
-#m = 111
+#m = 110
 #data generate
 n = 10000
 d = 3
@@ -1140,7 +1124,7 @@ X1 = X[, 1]; X2 = X[, 2]; X3 = X[, 3]
 y = as.vector(sin(2*pi*rowMeans(X)^3) + rnorm(n, 0, 0.1))
 data = data.frame(X, y = y)
 
-m = 111
+m = (floor(ceiling(n^(1/3)) * 5))
 # ---- KRLS: LOOCV ----
 model_krls_tune = krls(X = X, y = y, whichkernel = "gaussian",
                        sigma = rho, derivative = FALSE,
@@ -1153,6 +1137,8 @@ lambda_krls_n10000d3 = model_krls_tune$lambda
 model_gkrls_tune = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
                              xt = gKRLS(
                                sketch_method = "subsampling",
+                               bandwidth = rho,
+                               standardize = "none",
                                sketch_multiplier = NULL,
                                sketch_size_raw = m,
                                remove_instability = TRUE
@@ -1190,6 +1176,8 @@ krr_pkg_compare_n10000d3 = microbenchmark::microbenchmark(
   gKRLS = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
                     xt = gKRLS(
                       sketch_method = "subsampling",
+                      bandwidth = rho,
+                      standardize = "none",
                       sketch_size_raw = m,
                       sketch_multiplier = NULL,
                       remove_instability = TRUE
@@ -1209,9 +1197,9 @@ krr_pkg_compare_n10000d3 = microbenchmark::microbenchmark(
   unit = "ms"
 )
 
-save(krr_pkg_compare_n10000d3, file = "output/table5_compare_time_pkg(n10000d3_m111).Rdata")
+save(krr_pkg_compare_n10000d3, file = "output/table5_compare_time_pkg(n10000d3_m110).Rdata")
 
-krr_pkg_compare_n10000d3m111 = krr_pkg_compare_n10000d3
+krr_pkg_compare_n10000d3m110 = krr_pkg_compare_n10000d3
 
 ## pred
 
@@ -1242,6 +1230,8 @@ for (rep in 1:100) {
   model_gkrls = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
                           xt = gKRLS(
                             sketch_method = "subsampling",
+                            bandwidth = rho,
+                            standardize = "none",
                             sketch_size_raw = m,
                             sketch_multiplier = NULL,
                             remove_instability = TRUE
@@ -1268,9 +1258,9 @@ for (rep in 1:100) {
   compare_packages_approx_n10000d3$FastKRR_rff[[rep]]     = as.vector(y_z - predict(object = FastKRR_rff, newdata = as.matrix(z_frame)))
 }
 
-save(compare_packages_approx_n10000d3, file = "output/table5_compare_prediction(n10000d3_m111).Rdata")
+save(compare_packages_approx_n10000d3, file = "output/table5_compare_prediction(n10000d3_m110).Rdata")
 
-compare_packages_approx_n10000d3m111 = compare_packages_approx_n10000d3
+compare_packages_approx_n10000d3m110 = compare_packages_approx_n10000d3
 
 # m = 208
 n = 10000
@@ -1297,6 +1287,8 @@ lambda_krls_n10000d3 = model_krls_tune$lambda
 model_gkrls_tune = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
                              xt = gKRLS(
                                sketch_method = "subsampling",
+                               bandwidth = rho,
+                               standardize = "none",
                                sketch_multiplier = NULL,
                                sketch_size_raw = m,
                                remove_instability = TRUE
@@ -1334,6 +1326,8 @@ krr_pkg_compare_n10000d3 = microbenchmark::microbenchmark(
   gKRLS = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
                     xt = gKRLS(
                       sketch_method = "subsampling",
+                      bandwidth = rho,
+                      standardize = "none",
                       sketch_size_raw = m,
                       sketch_multiplier = NULL,
                       remove_instability = TRUE
@@ -1375,16 +1369,18 @@ for (rep in 1:100) {
   y_z = as.vector(sin(2*pi*rowMeans(z)^3))
   z_frame = as.data.frame(z)
   
-  # ---- KRLS (lambda 고정) ----
+  # ---- KRLS (lambda fix) ----
   model_krls = krls(X = X, y = y, whichkernel = "gaussian",
                     sigma = rho, derivative = FALSE, lambda = lambda_krls_n10000d3,
                     binary = FALSE, vcov = FALSE, approx = "nystrom", nystrom_m = m)
   pred_krls = predict(object = model_krls, newdata = as.matrix(z))$fit
   
-  # ---- gKRLS (sp 고정) ----
+  # ---- gKRLS (sp fix) ----
   model_gkrls = gam(y ~ s(X1, X2, X3, bs = "gKRLS",
                           xt = gKRLS(
                             sketch_method = "subsampling",
+                            bandwidth = rho,
+                            standardize = "none",
                             sketch_size_raw = m,
                             sketch_multiplier = NULL,
                             remove_instability = TRUE
@@ -1393,7 +1389,7 @@ for (rep in 1:100) {
                     sp = sp_gkrls_n10000d3)
   pred_gkrls = predict(object = model_gkrls, newdata = z_frame)
   
-  # ---- FastKRR (lambda 고정, fastcv 없이) ----
+  # ---- FastKRR (lambda fix, fastcv no) ----
   FastKRR_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom",
                             n_threads = 4, rho = rho, lambda = lambda_nystrom_n10000d3, verbose = FALSE, m = m)
   
@@ -1403,7 +1399,7 @@ for (rep in 1:100) {
   FastKRR_rff = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "rff",
                         n_threads = 4, rho = rho, lambda = lambda_rff_n10000d3, verbose = FALSE, m = m)
   
-  # ---- 저장 ----
+  # ---- save ----
   compare_packages_approx_n10000d3$KRLS[[rep]]           = as.vector(y_z - pred_krls)
   compare_packages_approx_n10000d3$gKRLS[[rep]]           = as.vector(y_z - pred_gkrls)
   compare_packages_approx_n10000d3$FastKRR_nystrom[[rep]] = as.vector(y_z - predict(object = FastKRR_nystrom, newdata = as.matrix(z_frame)))
@@ -1416,10 +1412,10 @@ save(compare_packages_approx_n10000d3, file = "output/table5_compare_prediction(
 compare_packages_approx_n10000d3m208 = compare_packages_approx_n10000d3
 
 
-names(compare_packages_approx_n10000d3m111) = 
+names(compare_packages_approx_n10000d3m110) = 
   c("KRLS-nystrom", "gKRLS-sketched", "FastKRR-nystrom", "FastKRR-pivoted", "FastKRR-rff")
-krr_pkg_compare_n10000d3m111$expr = factor(
-  krr_pkg_compare_n10000d3m111$expr,
+krr_pkg_compare_n10000d3m110$expr = factor(
+  krr_pkg_compare_n10000d3m110$expr,
   levels = c("gKRLS", "FastKRR_nystrom", "FastKRR_rff", "FastKRR_pivoted", "KRLS"),
   labels = c("gKRLS-sketched", "FastKRR-nystrom", "FastKRR-rff", "FastKRR-pivoted", "KRLS-nystrom")
 )
@@ -1434,8 +1430,8 @@ krr_pkg_compare_n10000d3m208$expr = factor(
 )
 
 
-table_m111 = summarize_package_comparison(krr_pkg_compare_n10000d3m111, 
-                                          compare_packages_approx_n10000d3m111, 111)
+table_m110 = summarize_package_comparison(krr_pkg_compare_n10000d3m110, 
+                                          compare_packages_approx_n10000d3m110, 110)
 
 table_m208 = summarize_package_comparison(krr_pkg_compare_n10000d3m208, 
                                           compare_packages_approx_n10000d3m208, 208)
@@ -1451,7 +1447,7 @@ method_order = c(
 
 
 table_final = bind_rows(
-  table_m111,
+  table_m110,
   table_m208
 ) %>%
   mutate(
@@ -1539,7 +1535,7 @@ pred = predict(final_fit, ames_test) %>%
 
 metrics(pred, truth = Sale_Price, estimate = .pred)
 
-# plot 
+# 7.8 Visualizing the learned spatial surface 
 location_grid = expand_grid(
   Longitude = seq(min(ames_train$Longitude),
                   max(ames_train$Longitude), length.out = 150),

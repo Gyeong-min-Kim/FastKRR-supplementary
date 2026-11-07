@@ -68,13 +68,13 @@ generate the corresponding tables in the manuscript.
 
 ### Table 5: approximation-method comparison
 
-- `table5_compare_time_pkg(n10000d3_m111).Rdata`
+- `table5_compare_time_pkg(n10000d3_m110).Rdata`
 - `table5_compare_time_pkg(n10000d3_m208).Rdata`
 
   Contain computation-time results for the package-level approximation
-  comparison at approximation ranks $m=111$ and $m=208$.
+  comparison at approximation ranks $m=110$ and $m=208$.
 
-- `table5_compare_prediction(n10000d3_m111).Rdata`
+- `table5_compare_prediction(n10000d3_m110).Rdata`
 - `table5_compare_prediction(n10000d3_m208).Rdata`
 
   Contain predictive-accuracy results for the same approximation-rank
