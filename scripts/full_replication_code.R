@@ -285,7 +285,7 @@ krr = function(X, y, lambda, rho){
   
   K = kernelMatrix(rbfdot(sigma=rho), X)
   
-  alpha_hat = solve(K + lambda * diag(n_row)) %*% y
+  alpha_hat = solve(K + n_row * lambda * diag(n_row)) %*% y
   
   pred_y = t(alpha_hat) %*% K
   
