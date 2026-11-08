@@ -17,7 +17,7 @@ library(kernlab)
 library(xtable)
 
 start_time = Sys.time()
-## 5. Structure and functionality of FastKRR package 
+## 5. Structure and functionality of FastKRR package ----------------------------
 #generate data 
 set.seed(1)
 n = 1000 ; d = 1
@@ -31,7 +31,7 @@ y_new = as.vector(sin(2*pi*X_new^3) + rnorm(1200, 0, 0.3))
 data_new = data.frame(X = X_new, y = y_new)
 
 
-## 5.1.Main functions
+## 5.1.Main functions ----------------------------------------------------------
 #example package key arguments and options
 fit_exact = fastkrr(data = data, response = "y", kernel = "gaussian", 
                     opt = "exact", selection_method = "exactCV")
@@ -112,12 +112,12 @@ K = make_kernel(X, kernel = "laplace", rho = 2, n_threads = 4)
 K_pred = make_kernel(X, X_new, kernel = "laplace", rho = 2, n_threads = 4)
 
 
-## 5.3.Parallel computation support
+## 5.3.Parallel computation support---------------------------------------------
 K_nystrom = approx_kernel(X = X, rho = 1, opt = "nystrom", n_threads = 4)
 K_pchol = approx_kernel(X = X, rho = 1, opt = "pivoted")
 K_rff = approx_kernel(X = X, rho = 1, opt = "rff", n_threads = 4)
 
-## 5.4.regularization parameter selection
+## 5.4.regularization parameter selection---------------------------------------
 #hyperparameter select examples
 fit_default = fastkrr(data = data, response = "y", selection_method = "exactCV")
 
@@ -129,7 +129,7 @@ fit_reml_range = fastkrr(data = data, response = "y", lambda = c(1e-8, 1e-2),
 fit_grid = fastkrr(data = data, response = "y", lambda = 10^seq(-8, -2, length.out = 10),
                    selection_method = "fastCV")
 
-## 6. Numerical study
+## 6. Numerical study-----------------------------------------------------------
 #summary-functions--------------------------------------------------------------
 summarize_package_comparison = function(
     benchmark_result,
@@ -342,7 +342,7 @@ summary_tbl = df %>%
 xt = xtable(summary_tbl, digits = 3,align = c("c", rep("c", ncol(summary_tbl))))
 print(xt, include.rownames = FALSE, floating = FALSE)
 
-## 6.2 Computation time and predictive accuracy in FastKRR
+## 6.2 Computation time and predictive accuracy in FastKRR----------------------
 ##hyper parameter
 rho = 1
 
@@ -981,8 +981,8 @@ final_tbl_print = final_tbl %>%
     `MAE (SE)`
   )
 
-## 6.3 Model selection efficiency
-#simualtion---------------------------------------------------------------------
+## 6.3 Model selection efficiency-----------------------------------------------
+#simualtion
 set.seed(1)
 n = 1000 
 d = 3
@@ -1122,8 +1122,7 @@ summary_cv_table4 = summary_cv_table4 %>%mutate(
 rownames(summary_cv_table4) = NULL
 
 
-## 6.4 Efficiency of the approximation methods in FastKRR
-#m = 110
+## 6.4 Efficiency of the approximation methods in FastKRR-----------------------
 #data generate
 n = 10000
 d = 3
@@ -1486,7 +1485,7 @@ table_final = bind_rows(
 
 
 
-## 7.Integration with the tidymodels ecosystem
+## 7.Integration with the tidymodels ecosystem----------------------------------
 ## 7.4 Data preparation
 data(ames)
 ames = ames %>% mutate(Sale_Price = log10(Sale_Price))
