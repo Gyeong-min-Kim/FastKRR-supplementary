@@ -41,5 +41,4 @@ The timing values in the replication `.Rdata` files may differ slightly from tho
 in the manuscript and can vary across systems due to hardware, OS scheduling,
 or parallelization. However, the substantive results and overall patterns remain 
 consistent, and the performance comparisons and conclusions are unaffected.
-The exact `.Rdata` files used in the manuscript (not newly generated ones)
-are available at: https://github.com/Gyeong-min-Kim/FastKRR-supplementary
+The exact `.Rdata` files used in the manuscript are provided in the `supplement_materials/` folder.
