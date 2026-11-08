@@ -39,6 +39,5 @@ using the same analysis pipeline, and new `.Rdata` files will be created in
 the `scripts/output/` folder.
 The timing values in the replication `.Rdata` files may differ slightly from those
 in the manuscript and can vary across systems due to hardware, OS scheduling,
-or parallelization. However, the substantive results and overall patterns remain 
-consistent, and the performance comparisons and conclusions are unaffected.
+or parallelization. However, the main comparative patterns and conclusions should remain qualitatively similar.
 The exact `.Rdata` files used in the manuscript are provided in the `supplement_materials/` folder.
