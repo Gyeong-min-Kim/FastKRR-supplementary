@@ -31,8 +31,6 @@ replication script.
 - `scripts/`: Replication code for Sections 5–7 of the manuscript.
 - `supplement_materials/`: Precomputed `.Rdata` files used to generate
   Tables 2–5 of the manuscript.
-- `response/`: Code and precomputed results for Table S1 in the response letter
-  for the first revision.
 
 ## Main contents
 
@@ -49,11 +47,6 @@ replication script.
 
 - `supplement_materials/*.Rdata`: Precomputed results used directly in the paper for Tables 2–5.
 
-- `response/`: Simulation code and precomputed results for **Table S1** in the
-  response letter for the first revision, comparing `KRMM`'s REML-based
-  tuning with `FastKRR`'s `"fastCV"` and `"REML"` options.
-  
-  KRMM is no longer available from the active CRAN repository. Instructionz for installing the archived source package are provided in response/README.md.
 
 ## Reproducibility notes
 

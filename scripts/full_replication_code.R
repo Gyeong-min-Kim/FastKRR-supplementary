@@ -78,7 +78,7 @@ ggplot() +
              color = "grey70", alpha = 0.35, size = 0.6) +
   geom_line(data = df_preds, aes(x = X, y = y_hat, color = Method),
             linewidth = 0.6) +
-  facet_wrap(~ Method, ncol = 2) +
+  facet_wrap(~ Method, ncol = 4) +
   scale_color_manual(values = c(
     "(a) Exact"   = "#1f77b4",
     "(b) Nystrom" = "#d62728",
@@ -88,6 +88,15 @@ ggplot() +
   labs(x = "X", y = "y") +
   theme_bw(base_size = 12) +
   theme(legend.position = "none")
+
+## save
+ggsave(
+  filename = "output/comp_approx.png",
+  plot = last_plot(),
+  width = 16,
+  height = 4,
+  dpi = 300
+)
 
 
 fit_nystrom = fastkrr(data = data, response = "y", kernel = "gaussian", opt = "nystrom")
@@ -251,7 +260,7 @@ calc_metric = function(pkg_error_list) {
   })
   data.frame(
     MSE_mean = mean(mse, na.rm = TRUE),
-    MSE_se   = sd(mse, na.rm = TRUE)/sqrt(100),
+    MSE_se   = sd(mse, na.rm = TRUE)/sqrt(100), 
     MAE_mean = mean(mae, na.rm = TRUE),
     MAE_se   = sd(mae, na.rm = TRUE)/sqrt(100)
   )
