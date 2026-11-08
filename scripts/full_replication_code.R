@@ -1554,8 +1554,9 @@ ggplot(surface, aes(Longitude, Latitude)) +
     aes(z = .pred), bins = 10,
     colour = "white", linewidth = 0.3, alpha = 0.7
   ) +
-  geom_point(data = ames_train, size = 0.3, alpha = 0.3) +
-  scale_fill_viridis_c(
+  geom_point(data = ames_train, size = 0.8, alpha = 0.5) +
+  scale_fill_gradientn(
+    colours = c("#2166AC", "#F7F7F7", "#B2182B"),
     name = "Fitted price (USD)",
     breaks = log10(c(100000, 200000, 400000, 800000)),
     labels = c("100k", "200k", "400k", "800k")
@@ -1565,7 +1566,6 @@ ggplot(surface, aes(Longitude, Latitude)) +
   coord_quickmap() +
   labs(x = "Longitude", y = "Latitude") +
   theme(panel.grid = element_blank())
-
 end_time = Sys.time()
 elapsed = end_time - start_time
 elapsed
