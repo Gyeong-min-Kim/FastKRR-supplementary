@@ -1522,10 +1522,10 @@ tune_results = tune_grid(
   wf,
   resamples = cv_folds,
   grid = param_grid,
-  metrics = metric_set(rmse, rsq),
+  metrics = metric_set(rmse, rsq, mae),
   control = control_grid(verbose = TRUE, save_pred = TRUE)
 )
-#autoplot(tune_results)
+autoplot(tune_results)
 
 
 ## 7.7 Model selection and final evaluation
